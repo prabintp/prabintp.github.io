@@ -14,50 +14,48 @@ const projects = (await getCollection('projects')).sort(
 	<head>
 		<BaseHead title="Projects - Prabin T P" description="Portfolio of web development projects" />
 	</head>
-	<body class="bg-gray-50">
+	<body>
 		<Header />
-		<main class="max-w-5xl mx-auto px-4 py-12">
-			<div class="mb-12">
-				<h1 class="text-4xl font-bold text-gray-900 mb-4">Projects</h1>
-				<p class="text-lg text-gray-600">A showcase of web applications and platforms I've built</p>
+		<main class="container" style="padding-top: var(--space-6); padding-bottom: var(--space-8);">
+			<div style="margin-bottom: var(--space-6);">
+				<h1>Projects</h1>
+				<p style="font-size: var(--font-size-body-lg); color: var(--color-text-secondary);">A showcase of web applications and platforms I've built</p>
 			</div>
 
-			<div class="grid gap-8 md:grid-cols-2">
+			<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: var(--space-4);">
 				{projects.map((project) => (
-					<article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-						<div class="p-6">
-							{project.data.featured && (
-								<span class="inline-block px-3 py-1 text-xs font-semibold text-blue-600 bg-blue-100 rounded-full mb-3">
-									Featured
+					<article class="card">
+						{project.data.featured && (
+							<span style="display: inline-block; padding: 0.25rem 0.75rem; font-size: 0.75rem; font-weight: 600; color: var(--color-accent); background: rgba(65, 105, 225, 0.1); border-radius: 12px; margin-bottom: var(--space-2);">
+								Featured
+							</span>
+						)}
+						<h2 style="margin-bottom: var(--space-2);">
+							<a href={`/projects/${project.id}`} style="color: var(--color-secondary);">
+								{project.data.title}
+							</a>
+						</h2>
+						<p style="color: var(--color-text-secondary); margin-bottom: var(--space-3);">{project.data.description}</p>
+
+						<div style="display: flex; flex-wrap: wrap; gap: var(--space-1); margin-bottom: var(--space-3);">
+							{project.data.technologies.map((tech) => (
+								<span class="tag" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">
+									{tech}
 								</span>
-							)}
-							<h2 class="text-2xl font-bold text-gray-900 mb-3">
-								<a href={`/projects/${project.id}`} class="hover:text-blue-600 transition-colors">
-									{project.data.title}
+							))}
+						</div>
+
+						<div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
+							{project.data.github && (
+								<a href={project.data.github} style="font-weight: 500; font-size: 0.9rem;">
+									View on GitHub →
 								</a>
-							</h2>
-							<p class="text-gray-600 mb-4">{project.data.description}</p>
-
-							<div class="flex flex-wrap gap-2 mb-4">
-								{project.data.technologies.map((tech) => (
-									<span class="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded">
-										{tech}
-									</span>
-								))}
-							</div>
-
-							<div class="flex gap-4">
-								{project.data.github && (
-									<a href={project.data.github} class="text-blue-600 hover:text-blue-800 text-sm font-medium">
-										View on GitHub →
-									</a>
-								)}
-								{project.data.demo && (
-									<a href={project.data.demo} class="text-blue-600 hover:text-blue-800 text-sm font-medium">
-										Live Demo →
-									</a>
-								)}
-							</div>
+							)}
+							{project.data.demo && (
+								<a href={project.data.demo} style="font-weight: 500; font-size: 0.9rem;">
+									Live Demo →
+								</a>
+							)}
 						</div>
 					</article>
 				))}

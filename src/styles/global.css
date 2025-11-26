@@ -1,39 +1,238 @@
 @import "tailwindcss";
 
-@font-face {
-	font-family: "Atkinson";
-	src: url("/fonts/atkinson-regular.woff") format("woff");
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
-}
-@font-face {
-	font-family: "Atkinson";
-	src: url("/fonts/atkinson-bold.woff") format("woff");
-	font-weight: 700;
-	font-style: normal;
-	font-display: swap;
+/* Design System - Color Palette */
+:root {
+	/* Primary Color (60%) - Clean background */
+	--color-primary: #FFFFFF;
+	--color-primary-alt: #F4F4F4;
+
+	/* Secondary Color (30%) - Professional text and sections */
+	--color-secondary: #333333;
+	--color-secondary-dark: #000080;
+
+	/* Accent Color (10%) - Actions and highlights */
+	--color-accent: #4169E1;
+	--color-accent-hover: #3153c1;
+
+	/* Semantic Colors */
+	--color-error: #D32F2F;
+	--color-success: #388E3C;
+
+	/* Text Colors */
+	--color-text-primary: #333333;
+	--color-text-secondary: #666666;
+	--color-text-light: #999999;
+
+	/* Spacing - 8pt baseline grid */
+	--space-1: 0.5rem;  /* 8px */
+	--space-2: 1rem;    /* 16px */
+	--space-3: 1.5rem;  /* 24px */
+	--space-4: 2rem;    /* 32px */
+	--space-5: 2.5rem;  /* 40px */
+	--space-6: 3rem;    /* 48px */
+	--space-8: 4rem;    /* 64px */
+	--space-10: 5rem;   /* 80px */
+
+	/* Typography */
+	--font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+	--font-size-body: 1rem;      /* 16px */
+	--font-size-body-lg: 1.125rem; /* 18px */
+	--font-size-h3: 1.5rem;      /* 24px */
+	--font-size-h2: 2rem;        /* 32px */
+	--font-size-h1: 3rem;        /* 48px */
+	--line-height-body: 1.5;
+	--line-height-heading: 1.2;
 }
 
-/* Custom styles */
+/* Base Typography */
 body {
-	font-family: "Atkinson", sans-serif;
+	font-family: var(--font-family);
+	font-size: var(--font-size-body);
+	line-height: var(--line-height-body);
+	color: var(--color-text-primary);
+	background-color: var(--color-primary-alt);
 }
 
+/* Headings */
+h1 {
+	font-size: var(--font-size-h1);
+	font-weight: 700;
+	color: var(--color-secondary);
+	line-height: var(--line-height-heading);
+	margin-bottom: var(--space-3);
+}
+
+h2 {
+	font-size: var(--font-size-h2);
+	font-weight: 600;
+	color: var(--color-secondary);
+	line-height: var(--line-height-heading);
+	margin-bottom: var(--space-2);
+}
+
+h3 {
+	font-size: var(--font-size-h3);
+	font-weight: 500;
+	color: var(--color-accent);
+	line-height: var(--line-height-heading);
+	margin-bottom: var(--space-2);
+}
+
+/* Body Text */
+p {
+	font-size: var(--font-size-body);
+	color: var(--color-text-primary);
+	line-height: var(--line-height-body);
+	margin-bottom: var(--space-2);
+}
+
+/* Links */
+a {
+	color: var(--color-accent);
+	text-decoration: none;
+	transition: color 0.2s ease;
+}
+
+a:hover {
+	color: var(--color-accent-hover);
+}
+
+/* Container - Responsive 12-column grid */
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 var(--space-2);
+}
+
+/* Prose styles for markdown content */
 .prose {
 	max-width: 65ch;
 }
 
 .prose p {
-	margin-bottom: 1.5em;
+	margin-bottom: var(--space-3);
+	font-size: var(--font-size-body-lg);
+	line-height: var(--line-height-body);
+}
+
+.prose h1,
+.prose h2,
+.prose h3 {
+	margin-top: var(--space-4);
 }
 
 .prose pre {
-	padding: 1.5em;
+	padding: var(--space-3);
 	border-radius: 8px;
+	background-color: var(--color-secondary);
+	color: var(--color-primary);
+	margin: var(--space-3) 0;
 }
 
 .prose code {
-	padding: 2px 5px;
-	border-radius: 2px;
+	padding: 2px 6px;
+	border-radius: 4px;
+	background-color: var(--color-primary-alt);
+	color: var(--color-accent);
+	font-size: 0.9em;
+}
+
+.prose ul,
+.prose ol {
+	margin-bottom: var(--space-3);
+	padding-left: var(--space-4);
+}
+
+.prose li {
+	margin-bottom: var(--space-1);
+}
+
+/* Utility Classes */
+
+/* Card Component */
+.card {
+	background: var(--color-primary);
+	border-radius: 8px;
+	padding: var(--space-4);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+	transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Tag/Badge Component */
+.tag {
+	display: inline-block;
+	padding: var(--space-1) 0.75rem;
+	font-size: 0.875rem;
+	background: rgba(65, 105, 225, 0.1);
+	color: var(--color-accent);
+	border-radius: 4px;
+	font-weight: 500;
+}
+
+/* Button Components */
+.btn-primary,
+.btn-secondary {
+	display: inline-block;
+	padding: 0.75rem 1.5rem;
+	border-radius: 8px;
+	font-weight: 500;
+	text-decoration: none;
+	transition: all 0.2s ease;
+	border: none;
+	cursor: pointer;
+}
+
+.btn-primary {
+	background: var(--color-accent);
+	color: var(--color-primary);
+}
+
+.btn-primary:hover {
+	background: var(--color-accent-hover);
+	color: var(--color-primary);
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3);
+}
+
+.btn-secondary {
+	background: var(--color-primary-alt);
+	color: var(--color-text-primary);
+	border: 1px solid #e5e5e5;
+}
+
+.btn-secondary:hover {
+	background: #e8e8e8;
+	color: var(--color-text-primary);
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+	:root {
+		--font-size-h1: 2.25rem;  /* 36px on mobile */
+		--font-size-h2: 1.5rem;   /* 24px on mobile */
+		--font-size-h3: 1.25rem;  /* 20px on mobile */
+	}
+
+	.container {
+		padding: 0 var(--space-2);
+	}
+}
+
+/* Screen reader only utility */
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
 }

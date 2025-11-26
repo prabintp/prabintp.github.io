@@ -3,12 +3,20 @@ import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { SITE_DESCRIPTION, SITE_TITLE, COMPANY, LOCATION, TIMEZONE, EMAIL } from '../consts';
 
 const featuredProjects = (await getCollection('projects'))
 	.filter(p => p.data.featured)
 	.sort((a, b) => a.data.order - b.data.order)
 	.slice(0, 3);
+
+// Get current time in the specified timezone
+const now = new Date();
+const timeString = now.toLocaleTimeString('en-US', {
+	hour: '2-digit',
+	minute: '2-digit',
+	hour12: false
+});
 ---
 
 <!doctype html>
@@ -16,105 +24,134 @@ const featuredProjects = (await getCollection('projects'))
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
-	<body class="bg-gray-50">
+	<body>
 		<Header />
-		<main class="max-w-5xl mx-auto px-4 py-16">
+		<main class="container" style="padding-top: var(--space-8); padding-bottom: var(--space-8);">
 			<!-- Hero Section -->
-			<section class="text-center mb-16">
-				<h1 class="text-5xl font-bold text-gray-900 mb-4">{SITE_TITLE}</h1>
-				<p class="text-2xl text-gray-600 mb-6">{SITE_DESCRIPTION}</p>
-				<p class="text-lg text-gray-700 max-w-3xl mx-auto mb-8">
-					Innovative software engineer with expertise in building scalable web applications,
-					leading technical teams, and delivering cutting-edge solutions. Specialized in
-					React, Next.js, and modern cloud technologies.
+			<section style="margin-bottom: var(--space-8);">
+				<h1>{SITE_TITLE}</h1>
+				<p style="font-size: var(--font-size-h3); color: var(--color-text-secondary); margin-bottom: var(--space-2);">{SITE_DESCRIPTION}</p>
+				<div style="display: flex; flex-wrap: wrap; gap: var(--space-3); color: var(--color-text-secondary); font-size: var(--font-size-body); margin-bottom: var(--space-3);">
+					<div style="display: flex; align-items: center; gap: 0.5rem;">
+						<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+							<path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0zm7-3.25v2.992l2.028.812a.75.75 0 0 1-.557 1.392l-2.5-1A.751.751 0 0 1 7 8.25v-3.5a.75.75 0 0 1 1.5 0z"/>
+						</svg>
+						<span>{COMPANY}</span>
+					</div>
+					<div style="display: flex; align-items: center; gap: 0.5rem;">
+						<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+							<path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+						</svg>
+						<span>{LOCATION}</span>
+					</div>
+					<div style="display: flex; align-items: center; gap: 0.5rem;">
+						<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+							<path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+							<path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+						</svg>
+						<span>{timeString} ({TIMEZONE})</span>
+					</div>
+					<div style="display: flex; align-items: center; gap: 0.5rem;">
+						<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+							<path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
+						</svg>
+						<a href={`mailto:${EMAIL}`} style="color: var(--color-text-secondary); text-decoration: none;">{EMAIL}</a>
+					</div>
+				</div>
+				<p style="font-size: var(--font-size-body-lg); color: var(--color-text-primary); max-width: 900px; margin-bottom: var(--space-4); line-height: 1.6;">
+					Innovative software engineer with extensive experience in the full software development lifecycle – from concept through delivery of next-generation applications and customizable solutions. Knowledgeable in development methodologies, as a software Engineer in end to end process of SaaS Web Applications, contributing to the design and rollout of cutting-edge software applications.
 				</p>
-				<div class="flex gap-4 justify-center">
-					<a href="/experience" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+				<p style="font-size: var(--font-size-body-lg); color: var(--color-text-primary); max-width: 900px; margin-bottom: var(--space-4); line-height: 1.6;">
+					Known for excellent troubleshooting skills with strong analytical, problem solving, technical, interpersonal and communication abilities, coupled with an entrepreneurial drive. Quick learner with proven ability to adapt to new languages and frameworks rapidly, as evidenced by the variety of technologies mastered.
+				</p>
+				<p style="font-size: var(--font-size-body-lg); color: var(--color-text-primary); max-width: 900px; margin-bottom: var(--space-4); line-height: 1.6;">
+					Specializing in AI-driven development planning via agentic systems for task breakdown, leveraging AI for agentic coding and autonomous feature generation, automated code refactoring, intelligent documentation generation, and AI-assisted code reviewing to enforce quality and best practices at scale.
+				</p>
+				<div style="display: flex; gap: var(--space-2); flex-wrap: wrap;">
+					<a href="/experience" class="btn-primary">
 						View Experience
 					</a>
-					<a href="/projects" class="px-6 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors font-medium">
+					<a href="/projects" class="btn-secondary">
 						See Projects
 					</a>
 				</div>
 			</section>
 
 			<!-- Skills Highlights -->
-			<section class="mb-16">
-				<h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Core Expertise</h2>
-				<div class="grid md:grid-cols-3 gap-6">
-					<div class="bg-white rounded-lg shadow-md p-6">
-						<h3 class="text-xl font-bold text-gray-900 mb-3">Front-End Development</h3>
-						<p class="text-gray-600 mb-4">Expert in modern JavaScript frameworks and libraries</p>
-						<div class="flex flex-wrap gap-2">
-							<span class="px-2 py-1 text-xs bg-blue-50 text-blue-700 rounded">React</span>
-							<span class="px-2 py-1 text-xs bg-blue-50 text-blue-700 rounded">Next.js</span>
-							<span class="px-2 py-1 text-xs bg-blue-50 text-blue-700 rounded">TypeScript</span>
-							<span class="px-2 py-1 text-xs bg-blue-50 text-blue-700 rounded">Tailwind CSS</span>
+			<section style="margin-bottom: var(--space-8);">
+				<h2 style="margin-bottom: var(--space-4);">Core Expertise</h2>
+				<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-4);">
+					<div class="card">
+						<h3>Front-End Development</h3>
+						<p style="color: var(--color-text-secondary); margin-bottom: var(--space-3);">Expert in modern JavaScript frameworks and libraries</p>
+						<div style="display: flex; flex-wrap: wrap; gap: var(--space-1);">
+							<span class="tag">React</span>
+							<span class="tag">Next.js</span>
+							<span class="tag">TypeScript</span>
+							<span class="tag">Tailwind CSS</span>
 						</div>
 					</div>
 
-					<div class="bg-white rounded-lg shadow-md p-6">
-						<h3 class="text-xl font-bold text-gray-900 mb-3">Cloud & DevOps</h3>
-						<p class="text-gray-600 mb-4">AWS infrastructure and CI/CD expertise</p>
-						<div class="flex flex-wrap gap-2">
-							<span class="px-2 py-1 text-xs bg-green-50 text-green-700 rounded">AWS</span>
-							<span class="px-2 py-1 text-xs bg-green-50 text-green-700 rounded">Terraform</span>
-							<span class="px-2 py-1 text-xs bg-green-50 text-green-700 rounded">GitHub Actions</span>
-							<span class="px-2 py-1 text-xs bg-green-50 text-green-700 rounded">Docker</span>
+					<div class="card">
+						<h3>Cloud & DevOps</h3>
+						<p style="color: var(--color-text-secondary); margin-bottom: var(--space-3);">AWS infrastructure and CI/CD expertise</p>
+						<div style="display: flex; flex-wrap: wrap; gap: var(--space-1);">
+							<span class="tag">AWS</span>
+							<span class="tag">Terraform</span>
+							<span class="tag">GitHub Actions</span>
+							<span class="tag">Docker</span>
 						</div>
 					</div>
 
-					<div class="bg-white rounded-lg shadow-md p-6">
-						<h3 class="text-xl font-bold text-gray-900 mb-3">Leadership</h3>
-						<p class="text-gray-600 mb-4">Technical leadership and team mentoring</p>
-						<div class="flex flex-wrap gap-2">
-							<span class="px-2 py-1 text-xs bg-purple-50 text-purple-700 rounded">Team Lead</span>
-							<span class="px-2 py-1 text-xs bg-purple-50 text-purple-700 rounded">Agile/SCRUM</span>
-							<span class="px-2 py-1 text-xs bg-purple-50 text-purple-700 rounded">Architecture</span>
-							<span class="px-2 py-1 text-xs bg-purple-50 text-purple-700 rounded">Mentoring</span>
+					<div class="card">
+						<h3>Leadership</h3>
+						<p style="color: var(--color-text-secondary); margin-bottom: var(--space-3);">Technical leadership and team mentoring</p>
+						<div style="display: flex; flex-wrap: wrap; gap: var(--space-1);">
+							<span class="tag">Team Lead</span>
+							<span class="tag">Agile/SCRUM</span>
+							<span class="tag">Architecture</span>
+							<span class="tag">Mentoring</span>
 						</div>
 					</div>
 				</div>
 			</section>
 
 			<!-- Featured Projects -->
-			<section class="mb-16">
-				<h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Featured Projects</h2>
-				<div class="grid md:grid-cols-3 gap-6">
+			<section style="margin-bottom: var(--space-8);">
+				<h2 style="margin-bottom: var(--space-4);">Featured Projects</h2>
+				<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-4);">
 					{featuredProjects.map((project) => (
-						<article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-							<div class="p-6">
-								<h3 class="text-xl font-bold text-gray-900 mb-2">
-									<a href={`/projects/${project.id}`} class="hover:text-blue-600 transition-colors">
-										{project.data.title}
-									</a>
-								</h3>
-								<p class="text-gray-600 mb-4 text-sm">{project.data.description}</p>
-								<a href={`/projects/${project.id}`} class="text-blue-600 hover:text-blue-800 text-sm font-medium">
-									Learn more →
+						<article class="card" style="transition: box-shadow 0.2s ease;">
+							<h3 style="margin-bottom: var(--space-1);">
+								<a href={`/projects/${project.id}`}>
+									{project.data.title}
 								</a>
-							</div>
+							</h3>
+							<p style="color: var(--color-text-secondary); margin-bottom: var(--space-3); font-size: 0.9rem;">{project.data.description}</p>
+							<a href={`/projects/${project.id}`} style="font-weight: 500; font-size: 0.9rem;">
+								Learn more →
+							</a>
 						</article>
 					))}
 				</div>
-				<div class="text-center mt-8">
-					<a href="/projects" class="text-blue-600 hover:text-blue-800 font-medium">
+				<div style="margin-top: var(--space-4);">
+					<a href="/projects" style="font-weight: 500;">
 						View all projects →
 					</a>
 				</div>
 			</section>
 
 			<!-- Contact Section -->
-			<section class="bg-white rounded-lg shadow-md p-8 text-center">
-				<h2 class="text-3xl font-bold text-gray-900 mb-4">Get In Touch</h2>
-				<p class="text-gray-600 mb-6">
+			<section class="card">
+				<h2 style="margin-bottom: var(--space-2);">Get In Touch</h2>
+				<p style="color: var(--color-text-secondary); margin-bottom: var(--space-4);">
 					Interested in working together? Feel free to reach out!
 				</p>
-				<div class="flex gap-4 justify-center">
-					<a href="mailto:prabintp@gmail.com" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+				<div style="display: flex; gap: var(--space-2); flex-wrap: wrap;">
+					<a href="mailto:prabintp@gmail.com" class="btn-primary">
 						Email Me
 					</a>
-					<a href="https://github.com/prabintp" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors font-medium">
+					<a href="https://github.com/prabintp" target="_blank" class="btn-secondary" style="background: var(--color-secondary); color: var(--color-primary);">
 						GitHub
 					</a>
 				</div>

@@ -18,42 +18,42 @@ function formatDate(date: Date) {
 	<head>
 		<BaseHead title="Experience - Prabin T P" description="Professional experience and work history" />
 	</head>
-	<body class="bg-gray-50">
+	<body>
 		<Header />
-		<main class="max-w-4xl mx-auto px-4 py-12">
-			<div class="mb-12">
-				<h1 class="text-4xl font-bold text-gray-900 mb-4">Experience</h1>
-				<p class="text-lg text-gray-600">13+ years of professional software engineering experience</p>
+		<main class="container" style="padding-top: var(--space-6); padding-bottom: var(--space-8); max-width: 900px;">
+			<div style="margin-bottom: var(--space-6);">
+				<h1>Experience</h1>
+				<p style="font-size: var(--font-size-body-lg); color: var(--color-text-secondary);">13+ years of professional software engineering experience</p>
 			</div>
 
-			<div class="space-y-8">
+			<div style="display: flex; flex-direction: column; gap: var(--space-4);">
 				{experiences.map((exp) => (
-					<article class="bg-white rounded-lg shadow-md p-8 hover:shadow-lg transition-shadow">
-						<div class="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
+					<article class="card">
+						<div style="display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-3);">
 							<div>
-								<h2 class="text-2xl font-bold text-gray-900">
-									<a href={`/experience/${exp.id}`} class="hover:text-blue-600 transition-colors">
+								<h2 style="margin-bottom: var(--space-1);">
+									<a href={`/experience/${exp.id}`} style="color: var(--color-secondary);">
 										{exp.data.position}
 									</a>
 								</h2>
-								<h3 class="text-xl text-blue-600 font-semibold">{exp.data.company}</h3>
+								<h3 style="font-size: 1.25rem; margin-bottom: var(--space-1);">{exp.data.company}</h3>
 								{exp.data.location && (
-									<p class="text-gray-600">{exp.data.location}</p>
+									<p style="color: var(--color-text-secondary); font-size: 0.9rem;">{exp.data.location}</p>
 								)}
 							</div>
-							<div class="text-gray-600 mt-2 md:mt-0 md:text-right">
-								<p class="font-medium">
+							<div style="color: var(--color-text-secondary);">
+								<p style="font-weight: 500; font-size: 0.9rem;">
 									{formatDate(exp.data.startDate)} - {exp.data.current ? 'Present' : formatDate(exp.data.endDate!)}
 								</p>
 								{exp.data.current && (
-									<span class="inline-block px-3 py-1 text-xs font-semibold text-green-600 bg-green-100 rounded-full mt-2">
+									<span style="display: inline-block; padding: 0.25rem 0.75rem; font-size: 0.75rem; font-weight: 600; color: var(--color-success); background: rgba(56, 142, 60, 0.1); border-radius: 12px; margin-top: var(--space-1);">
 										Current Position
 									</span>
 								)}
 							</div>
 						</div>
 
-						<a href={`/experience/${exp.id}`} class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+						<a href={`/experience/${exp.id}`} style="font-weight: 500; font-size: 0.9rem;">
 							View details →
 						</a>
 					</article>

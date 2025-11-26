@@ -22,33 +22,34 @@ const { Content } = await render(project);
 	<head>
 		<BaseHead title={project.data.title} description={project.data.description} />
 	</head>
-	<body class="bg-gray-50">
+	<body>
 		<Header />
-		<main class="max-w-3xl mx-auto px-4 py-12">
-			<article class="bg-white rounded-lg shadow-md p-8">
+		<main class="container" style="padding-top: var(--space-6); padding-bottom: var(--space-8); max-width: 800px;">
+			<article class="card">
 				{project.data.featured && (
-					<span class="inline-block px-3 py-1 text-xs font-semibold text-blue-600 bg-blue-100 rounded-full mb-4">
+					<span style="display: inline-block; padding: 0.25rem 0.75rem; font-size: 0.75rem; font-weight: 600; color: var(--color-accent); background: rgba(65, 105, 225, 0.1); border-radius: 12px; margin-bottom: var(--space-3);">
 						Featured Project
 					</span>
 				)}
 
-				<h1 class="text-4xl font-bold text-gray-900 mb-4">{project.data.title}</h1>
-				<p class="text-xl text-gray-600 mb-6">{project.data.description}</p>
+				<h1 style="margin-bottom: var(--space-2);">{project.data.title}</h1>
+				<p style="font-size: var(--font-size-h3); color: var(--color-text-secondary); margin-bottom: var(--space-4);">{project.data.description}</p>
 
-				<div class="flex flex-wrap gap-2 mb-8">
+				<div style="display: flex; flex-wrap: wrap; gap: var(--space-1); margin-bottom: var(--space-4);">
 					{project.data.technologies.map((tech: string) => (
-						<span class="px-3 py-1 text-sm bg-blue-50 text-blue-700 rounded-md font-medium">
+						<span class="tag">
 							{tech}
 						</span>
 					))}
 				</div>
 
 				{(project.data.github || project.data.demo) && (
-					<div class="flex gap-4 mb-8 pb-8 border-b">
+					<div style="display: flex; gap: var(--space-2); margin-bottom: var(--space-4); padding-bottom: var(--space-4); border-bottom: 1px solid #e5e5e5; flex-wrap: wrap;">
 						{project.data.github && (
 							<a
 								href={project.data.github}
-								class="inline-flex items-center px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition-colors"
+								class="btn-secondary"
+								style="background: var(--color-secondary); color: var(--color-primary);"
 							>
 								GitHub Repository →
 							</a>
@@ -56,7 +57,7 @@ const { Content } = await render(project);
 						{project.data.demo && (
 							<a
 								href={project.data.demo}
-								class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+								class="btn-primary"
 							>
 								Live Demo →
 							</a>
@@ -64,13 +65,13 @@ const { Content } = await render(project);
 					</div>
 				)}
 
-				<div class="prose prose-lg max-w-none">
+				<div class="prose">
 					<Content />
 				</div>
 			</article>
 
-			<div class="mt-8">
-				<a href="/projects" class="text-blue-600 hover:text-blue-800 font-medium">
+			<div style="margin-top: var(--space-4);">
+				<a href="/projects" style="font-weight: 500;">
 					← Back to Projects
 				</a>
 			</div>
