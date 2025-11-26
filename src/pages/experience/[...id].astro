@@ -1,0 +1,62 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+
+export const getStaticPaths = (async () => {
+	const experiences = await getCollection('experience');
+	return experiences.map((experience) => ({
+		params: { id: experience.id },
+		props: experience,
+	}));
+}) satisfies GetStaticPaths;
+
+const experience = Astro.props;
+const { Content } = await render(experience);
+
+function formatDate(date: Date) {
+	return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+}
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`${experience.data.position} at ${experience.data.company}`} description={`Experience at ${experience.data.company}`} />
+	</head>
+	<body class="bg-gray-50">
+		<Header />
+		<main class="max-w-3xl mx-auto px-4 py-12">
+			<article class="bg-white rounded-lg shadow-md p-8">
+				<div class="mb-6">
+					<h1 class="text-4xl font-bold text-gray-900 mb-2">{experience.data.position}</h1>
+					<h2 class="text-2xl text-blue-600 font-semibold mb-2">{experience.data.company}</h2>
+					{experience.data.location && (
+						<p class="text-gray-600 mb-2">{experience.data.location}</p>
+					)}
+					<p class="text-gray-600 font-medium">
+						{formatDate(experience.data.startDate)} - {experience.data.current ? 'Present' : formatDate(experience.data.endDate!)}
+					</p>
+					{experience.data.current && (
+						<span class="inline-block px-3 py-1 text-xs font-semibold text-green-600 bg-green-100 rounded-full mt-2">
+							Current Position
+						</span>
+					)}
+				</div>
+
+				<div class="prose prose-lg max-w-none">
+					<Content />
+				</div>
+			</article>
+
+			<div class="mt-8">
+				<a href="/experience" class="text-blue-600 hover:text-blue-800 font-medium">
+					← Back to Experience
+				</a>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>

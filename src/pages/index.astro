@@ -1,8 +1,14 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const featuredProjects = (await getCollection('projects'))
+	.filter(p => p.data.featured)
+	.sort((a, b) => a.data.order - b.data.order)
+	.slice(0, 3);
 ---
 
 <!doctype html>
@@ -10,39 +16,109 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
-	<body>
+	<body class="bg-gray-50">
 		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
+		<main class="max-w-5xl mx-auto px-4 py-16">
+			<!-- Hero Section -->
+			<section class="text-center mb-16">
+				<h1 class="text-5xl font-bold text-gray-900 mb-4">{SITE_TITLE}</h1>
+				<p class="text-2xl text-gray-600 mb-6">{SITE_DESCRIPTION}</p>
+				<p class="text-lg text-gray-700 max-w-3xl mx-auto mb-8">
+					Innovative software engineer with expertise in building scalable web applications,
+					leading technical teams, and delivering cutting-edge solutions. Specialized in
+					React, Next.js, and modern cloud technologies.
+				</p>
+				<div class="flex gap-4 justify-center">
+					<a href="/experience" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+						View Experience
+					</a>
+					<a href="/projects" class="px-6 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors font-medium">
+						See Projects
+					</a>
+				</div>
+			</section>
+
+			<!-- Skills Highlights -->
+			<section class="mb-16">
+				<h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Core Expertise</h2>
+				<div class="grid md:grid-cols-3 gap-6">
+					<div class="bg-white rounded-lg shadow-md p-6">
+						<h3 class="text-xl font-bold text-gray-900 mb-3">Front-End Development</h3>
+						<p class="text-gray-600 mb-4">Expert in modern JavaScript frameworks and libraries</p>
+						<div class="flex flex-wrap gap-2">
+							<span class="px-2 py-1 text-xs bg-blue-50 text-blue-700 rounded">React</span>
+							<span class="px-2 py-1 text-xs bg-blue-50 text-blue-700 rounded">Next.js</span>
+							<span class="px-2 py-1 text-xs bg-blue-50 text-blue-700 rounded">TypeScript</span>
+							<span class="px-2 py-1 text-xs bg-blue-50 text-blue-700 rounded">Tailwind CSS</span>
+						</div>
+					</div>
+
+					<div class="bg-white rounded-lg shadow-md p-6">
+						<h3 class="text-xl font-bold text-gray-900 mb-3">Cloud & DevOps</h3>
+						<p class="text-gray-600 mb-4">AWS infrastructure and CI/CD expertise</p>
+						<div class="flex flex-wrap gap-2">
+							<span class="px-2 py-1 text-xs bg-green-50 text-green-700 rounded">AWS</span>
+							<span class="px-2 py-1 text-xs bg-green-50 text-green-700 rounded">Terraform</span>
+							<span class="px-2 py-1 text-xs bg-green-50 text-green-700 rounded">GitHub Actions</span>
+							<span class="px-2 py-1 text-xs bg-green-50 text-green-700 rounded">Docker</span>
+						</div>
+					</div>
+
+					<div class="bg-white rounded-lg shadow-md p-6">
+						<h3 class="text-xl font-bold text-gray-900 mb-3">Leadership</h3>
+						<p class="text-gray-600 mb-4">Technical leadership and team mentoring</p>
+						<div class="flex flex-wrap gap-2">
+							<span class="px-2 py-1 text-xs bg-purple-50 text-purple-700 rounded">Team Lead</span>
+							<span class="px-2 py-1 text-xs bg-purple-50 text-purple-700 rounded">Agile/SCRUM</span>
+							<span class="px-2 py-1 text-xs bg-purple-50 text-purple-700 rounded">Architecture</span>
+							<span class="px-2 py-1 text-xs bg-purple-50 text-purple-700 rounded">Mentoring</span>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Featured Projects -->
+			<section class="mb-16">
+				<h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Featured Projects</h2>
+				<div class="grid md:grid-cols-3 gap-6">
+					{featuredProjects.map((project) => (
+						<article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+							<div class="p-6">
+								<h3 class="text-xl font-bold text-gray-900 mb-2">
+									<a href={`/projects/${project.id}`} class="hover:text-blue-600 transition-colors">
+										{project.data.title}
+									</a>
+								</h3>
+								<p class="text-gray-600 mb-4 text-sm">{project.data.description}</p>
+								<a href={`/projects/${project.id}`} class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+									Learn more →
+								</a>
+							</div>
+						</article>
+					))}
+				</div>
+				<div class="text-center mt-8">
+					<a href="/projects" class="text-blue-600 hover:text-blue-800 font-medium">
+						View all projects →
+					</a>
+				</div>
+			</section>
+
+			<!-- Contact Section -->
+			<section class="bg-white rounded-lg shadow-md p-8 text-center">
+				<h2 class="text-3xl font-bold text-gray-900 mb-4">Get In Touch</h2>
+				<p class="text-gray-600 mb-6">
+					Interested in working together? Feel free to reach out!
+				</p>
+				<div class="flex gap-4 justify-center">
+					<a href="mailto:prabintp@gmail.com" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+						Email Me
+					</a>
+					<a href="https://github.com/prabintp" target="_blank" class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors font-medium">
+						GitHub
+					</a>
+				</div>
+			</section>
 		</main>
 		<Footer />
 	</body>
