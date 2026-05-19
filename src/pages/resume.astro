@@ -15,12 +15,36 @@ function formatDate(date: Date) {
 	return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
 }
 
+function extractBullets(body: string): string[] {
+	const bullets: string[] = [];
+	let inSection = false;
+	for (const line of body.split('\n')) {
+		if (/^##\s+Key Responsibilities/.test(line)) { inSection = true; continue; }
+		if (inSection && /^##/.test(line)) break;
+		if (inSection && line.startsWith('- '))
+			bullets.push(line.slice(2).replace(/\*\*(.*?)\*\*/g, '$1').trim());
+	}
+	return bullets;
+}
+
+const skillsData = [
+	{ category: 'AI & GenAI', items: 'LangGraph, CrewAI, Llama Index, RAG, Agentic AI, Predictive Modeling, Prompt Engineering' },
+	{ category: 'Frontend', items: 'React, Next.js, TypeScript, AngularJS, Tailwind CSS, Material-UI, HTML5, CSS3' },
+	{ category: 'Backend', items: 'Node.js, REST APIs, GraphQL, PHP, Python' },
+	{ category: 'Cloud & Infrastructure', items: 'AWS (Amplify, S3, CloudFront, CloudWatch), Azure, GCP, Terraform, Docker, GitHub Actions' },
+	{ category: 'CMS & Tools', items: 'Sitecore CMS, Adobe Experience Manager (AEM), NX Monorepo, Git' },
+	{ category: 'Testing', items: 'Playwright, Jest, React Testing Library, Storybook' },
+	{ category: 'Architecture', items: 'Solution Architecture, Microservices, Enterprise Patterns, Agile/SCRUM, CI/CD' },
+	{ category: 'Databases', items: 'MySQL, MongoDB' },
+];
+
 const resumeData = {
 	name: SITE_TITLE,
 	title: SITE_DESCRIPTION,
 	email: EMAIL,
 	location: LOCATION,
 	company: COMPANY,
+	skills: skillsData,
 	experiences: experiences.map(exp => ({
 		company: exp.data.company,
 		position: exp.data.position,
@@ -28,6 +52,7 @@ const resumeData = {
 		endDate: exp.data.current ? 'Present' : formatDate(exp.data.endDate!),
 		location: exp.data.location || '',
 		current: exp.data.current,
+		responsibilities: extractBullets(exp.body ?? ''),
 	})),
 	projects: projects.map(p => ({
 		title: p.data.title,
@@ -91,7 +116,7 @@ const resumeData = {
 		}
 		.btn-pdf:hover { background: #3153c1; color: #fff; }
 
-		.btn-excel {
+		.btn-word {
 			padding: 0.55rem 1.1rem;
 			background: #fff;
 			color: #333;
@@ -105,8 +130,8 @@ const resumeData = {
 			gap: 0.4rem;
 			transition: background 0.2s, border-color 0.2s;
 		}
-		.btn-excel:hover { background: #f0f4f0; border-color: #1D6F42; color: #1D6F42; }
-		.btn-excel:disabled { opacity: 0.6; cursor: default; }
+		.btn-word:hover { background: #f0f4ff; border-color: #2B579A; color: #2B579A; }
+		.btn-word:disabled { opacity: 0.6; cursor: default; }
 
 		.btn-back {
 			padding: 0.55rem 0.875rem;
@@ -246,9 +271,9 @@ const resumeData = {
 			<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg>
 			Download PDF
 		</button>
-		<button id="btn-excel" class="btn-excel">
+		<button id="btn-word" class="btn-word">
 			<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg>
-			Download Excel
+			Download Word
 		</button>
 		<a href="/" class="btn-back">
 			<svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/></svg>
@@ -361,77 +386,148 @@ const resumeData = {
 </div>
 
 <script define:vars={{ resumeData }}>
-document.getElementById('btn-excel').addEventListener('click', async function () {
+document.getElementById('btn-word').addEventListener('click', async function () {
 	const btn = this;
 	const originalHTML = btn.innerHTML;
 	btn.textContent = 'Preparing…';
 	btn.disabled = true;
 
 	try {
-		if (!window.XLSX) {
+		if (!window.docx) {
 			await new Promise((resolve, reject) => {
 				const s = document.createElement('script');
-				s.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+				s.src = 'https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js';
 				s.onload = resolve;
-				s.onerror = () => reject(new Error('Failed to load SheetJS'));
+				s.onerror = () => reject(new Error('Failed to load docx library'));
 				document.head.appendChild(s);
 			});
 		}
 
-		const XLSX = window.XLSX;
-		const wb = XLSX.utils.book_new();
+		const { Document, Paragraph, TextRun, AlignmentType, Packer, BorderStyle } = window.docx;
 
-		// ── Profile sheet ────────────────────────────────────────
-		const profileWs = XLSX.utils.aoa_to_sheet([
-			['Field', 'Value'],
-			['Name', resumeData.name],
-			['Title', resumeData.title],
-			['Email', resumeData.email],
-			['Location', resumeData.location],
-			['Current Company', resumeData.company],
-			['LinkedIn', 'https://www.linkedin.com/in/prabin-tp-47038932/'],
-			['GitHub', 'https://github.com/prabintp'],
-			['Website', 'https://prabintp.github.io'],
-		]);
-		profileWs['!cols'] = [{ wch: 20 }, { wch: 55 }];
-		XLSX.utils.book_append_sheet(wb, profileWs, 'Profile');
+		const FONT = 'Calibri';
+		const COLOR_NAME = '1a1a1a';
+		const COLOR_ACCENT = '2B579A';
+		const COLOR_BODY = '333333';
+		const COLOR_MUTED = '666666';
+		const COLOR_CURRENT = '388E3C';
 
-		// ── Experience sheet ─────────────────────────────────────
-		const expWs = XLSX.utils.aoa_to_sheet([
-			['Company', 'Position', 'Start Date', 'End Date', 'Location'],
-			...resumeData.experiences.map(e => [
-				e.company, e.position, e.startDate, e.endDate, e.location
+		function sectionTitle(text) {
+			return new Paragraph({
+				spacing: { before: 240, after: 100 },
+				border: { bottom: { color: COLOR_ACCENT, space: 1, style: BorderStyle.SINGLE, size: 8 } },
+				children: [new TextRun({ text: text.toUpperCase(), bold: true, size: 22, font: FONT, color: COLOR_ACCENT })],
+			});
+		}
+
+		const children = [
+			// Name
+			new Paragraph({
+				alignment: AlignmentType.CENTER,
+				spacing: { after: 60 },
+				children: [new TextRun({ text: resumeData.name, bold: true, size: 64, font: FONT, color: COLOR_NAME })],
+			}),
+			// Job title
+			new Paragraph({
+				alignment: AlignmentType.CENTER,
+				spacing: { after: 80 },
+				children: [new TextRun({ text: resumeData.title, bold: true, size: 26, font: FONT, color: COLOR_ACCENT })],
+			}),
+			// Contact line
+			new Paragraph({
+				alignment: AlignmentType.CENTER,
+				spacing: { after: 160 },
+				children: [new TextRun({
+					text: resumeData.email + '  |  ' + resumeData.location + '  |  linkedin.com/in/prabin-tp-47038932  |  github.com/prabintp',
+					size: 18, font: FONT, color: COLOR_MUTED,
+				})],
+			}),
+
+			// Professional Summary
+			sectionTitle('Professional Summary'),
+			new Paragraph({
+				spacing: { after: 60 },
+				children: [new TextRun({ size: 21, font: FONT, color: COLOR_BODY, text: 'Seasoned software architect and full-stack engineer with 13+ years of experience spanning the full software development lifecycle — from enterprise-scale system design through production delivery. Specialising in enterprise software architecture, full-stack development, and the implementation of modern agentic AI frameworks that transform how organisations build and operate intelligent systems.' })],
+			}),
+			new Paragraph({
+				spacing: { after: 80 },
+				children: [new TextRun({ size: 21, font: FONT, color: COLOR_BODY, text: 'Proven track record defining and implementing end-to-end AI/ML and Generative AI application architectures, including Agentic AI frameworks (LangGraph, CrewAI, Llama Index), Retrieval-Augmented Generation (RAG) pipelines, and large-scale predictive modeling systems. Experienced across AWS, Azure, and GCP with a consistent focus on enterprise security, compliance, and scalability.' })],
+			}),
+
+			// Core Technical Skills
+			sectionTitle('Core Technical Skills'),
+			...resumeData.skills.map(s =>
+				new Paragraph({
+					spacing: { after: 40 },
+					children: [
+						new TextRun({ text: s.category + ': ', bold: true, size: 20, font: FONT, color: COLOR_NAME }),
+						new TextRun({ text: s.items, size: 20, font: FONT, color: COLOR_BODY }),
+					],
+				})
+			),
+
+			// Professional Experience
+			sectionTitle('Professional Experience'),
+			...resumeData.experiences.flatMap(exp => [
+				new Paragraph({
+					spacing: { before: 160, after: 40 },
+					children: [
+						new TextRun({ text: exp.position, bold: true, size: 22, font: FONT, color: COLOR_NAME }),
+						...(exp.current ? [new TextRun({ text: '  [Current]', bold: true, size: 18, font: FONT, color: COLOR_CURRENT })] : []),
+					],
+				}),
+				new Paragraph({
+					spacing: { after: 80 },
+					children: [
+						new TextRun({ text: exp.company, bold: true, size: 20, font: FONT, color: COLOR_ACCENT }),
+						new TextRun({ text: '   ' + exp.startDate + ' – ' + exp.endDate, size: 19, font: FONT, color: COLOR_MUTED }),
+						...(exp.location ? [new TextRun({ text: '   |   ' + exp.location, size: 19, font: FONT, color: COLOR_MUTED })] : []),
+					],
+				}),
+				...exp.responsibilities.map(r =>
+					new Paragraph({
+						bullet: { level: 0 },
+						spacing: { after: 40 },
+						children: [new TextRun({ text: r, size: 20, font: FONT, color: COLOR_BODY })],
+					})
+				),
 			]),
-		]);
-		expWs['!cols'] = [{ wch: 32 }, { wch: 46 }, { wch: 12 }, { wch: 12 }, { wch: 26 }];
-		XLSX.utils.book_append_sheet(wb, expWs, 'Experience');
 
-		// ── Skills sheet ─────────────────────────────────────────
-		const skillsWs = XLSX.utils.aoa_to_sheet([
-			['Category', 'Skills'],
-			['AI & GenAI', 'LangGraph, CrewAI, Llama Index, RAG, Agentic AI, Predictive Modeling, Prompt Engineering'],
-			['Frontend', 'React, Next.js, TypeScript, AngularJS, Tailwind CSS, Material-UI, HTML5, CSS3'],
-			['Backend', 'Node.js, REST APIs, GraphQL, PHP, Python'],
-			['Cloud & Infrastructure', 'AWS (Amplify, S3, CloudFront, CloudWatch), Azure, GCP, Terraform, Docker, GitHub Actions'],
-			['CMS & Tools', 'Sitecore CMS, Adobe Experience Manager (AEM), NX Monorepo, Git'],
-			['Testing', 'Playwright, Jest, React Testing Library, Storybook'],
-			['Architecture', 'Solution Architecture, Microservices, Enterprise Patterns, Agile/SCRUM, CI/CD'],
-			['Databases', 'MySQL, MongoDB'],
-		]);
-		skillsWs['!cols'] = [{ wch: 22 }, { wch: 75 }];
-		XLSX.utils.book_append_sheet(wb, skillsWs, 'Skills');
+			// Key Projects
+			sectionTitle('Key Projects'),
+			...resumeData.projects.map(p =>
+				new Paragraph({
+					spacing: { after: 80 },
+					children: [
+						new TextRun({ text: p.title + ': ', bold: true, size: 20, font: FONT, color: COLOR_NAME }),
+						new TextRun({ text: p.description + '  ', size: 20, font: FONT, color: COLOR_BODY }),
+						new TextRun({ text: '[' + p.technologies + ']', size: 18, font: FONT, color: COLOR_MUTED, italics: true }),
+					],
+				})
+			),
+		];
 
-		// ── Projects sheet ───────────────────────────────────────
-		const projWs = XLSX.utils.aoa_to_sheet([
-			['Title', 'Description', 'Technologies'],
-			...resumeData.projects.map(p => [p.title, p.description, p.technologies]),
-		]);
-		projWs['!cols'] = [{ wch: 36 }, { wch: 56 }, { wch: 65 }];
-		XLSX.utils.book_append_sheet(wb, projWs, 'Projects');
+		const doc = new Document({
+			creator: resumeData.name,
+			title: resumeData.name + ' - Resume',
+			description: 'Professional resume for ' + resumeData.name,
+			sections: [{
+				properties: { page: { margin: { top: 720, right: 1008, bottom: 720, left: 1008 } } },
+				children,
+			}],
+		});
 
-		XLSX.writeFile(wb, `${resumeData.name.replace(/\s+/g, '_')}_Resume.xlsx`);
+		const blob = await Packer.toBlob(doc);
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = resumeData.name.replace(/\s+/g, '_') + '_Resume.docx';
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+		URL.revokeObjectURL(url);
 	} catch (err) {
-		alert('Could not generate the Excel file. Please try again.');
+		alert('Could not generate the Word file. Please try again.');
 		console.error(err);
 	} finally {
 		btn.innerHTML = originalHTML;
