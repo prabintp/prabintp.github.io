@@ -1,0 +1,444 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import { SITE_TITLE, SITE_DESCRIPTION, COMPANY, LOCATION, EMAIL } from '../consts';
+
+const experiences = (await getCollection('experience')).sort(
+	(a, b) => b.data.startDate.valueOf() - a.data.startDate.valueOf()
+);
+
+const projects = (await getCollection('projects')).sort(
+	(a, b) => a.data.order - b.data.order
+);
+
+function formatDate(date: Date) {
+	return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+}
+
+const resumeData = {
+	name: SITE_TITLE,
+	title: SITE_DESCRIPTION,
+	email: EMAIL,
+	location: LOCATION,
+	company: COMPANY,
+	experiences: experiences.map(exp => ({
+		company: exp.data.company,
+		position: exp.data.position,
+		startDate: formatDate(exp.data.startDate),
+		endDate: exp.data.current ? 'Present' : formatDate(exp.data.endDate!),
+		location: exp.data.location || '',
+		current: exp.data.current,
+	})),
+	projects: projects.map(p => ({
+		title: p.data.title,
+		description: p.data.description,
+		technologies: p.data.technologies.join(', '),
+	})),
+};
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+	<BaseHead title={`Resume – ${SITE_TITLE}`} description={`Professional resume for ${SITE_TITLE}, ${SITE_DESCRIPTION}`} />
+	<style>
+		/* ── Print styles ── */
+		@media print {
+			.no-print { display: none !important; }
+			body { background: #fff !important; margin: 0; }
+			@page { margin: 1.5cm; size: A4 portrait; }
+			.resume-wrap { max-width: 100%; margin: 0; padding: 0; box-shadow: none; }
+			.section-title { border-color: #333 !important; color: #333 !important; }
+			a { color: inherit !important; text-decoration: none !important; }
+			.exp-entry { page-break-inside: avoid; }
+		}
+
+		body { background: #f4f4f4; margin: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+
+		/* Action bar */
+		.action-bar {
+			background: #fff;
+			border-bottom: 1px solid #e5e5e5;
+			padding: 0.75rem 1.5rem;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 1rem;
+			flex-wrap: wrap;
+			position: sticky;
+			top: 0;
+			z-index: 10;
+		}
+		.action-bar-info { font-size: 0.875rem; color: #555; }
+		.action-bar-info strong { color: #333; }
+		.action-bar-hint { font-size: 0.8rem; color: #888; margin-top: 0.1rem; }
+		.action-bar-buttons { display: flex; gap: 0.625rem; align-items: center; }
+
+		.btn-pdf {
+			padding: 0.55rem 1.1rem;
+			background: #4169E1;
+			color: #fff;
+			border: none;
+			border-radius: 6px;
+			font-weight: 600;
+			cursor: pointer;
+			font-size: 0.875rem;
+			text-decoration: none;
+			display: inline-flex;
+			align-items: center;
+			gap: 0.4rem;
+			transition: background 0.2s;
+		}
+		.btn-pdf:hover { background: #3153c1; color: #fff; }
+
+		.btn-excel {
+			padding: 0.55rem 1.1rem;
+			background: #fff;
+			color: #333;
+			border: 1px solid #d0d0d0;
+			border-radius: 6px;
+			font-weight: 600;
+			cursor: pointer;
+			font-size: 0.875rem;
+			display: inline-flex;
+			align-items: center;
+			gap: 0.4rem;
+			transition: background 0.2s, border-color 0.2s;
+		}
+		.btn-excel:hover { background: #f0f4f0; border-color: #1D6F42; color: #1D6F42; }
+		.btn-excel:disabled { opacity: 0.6; cursor: default; }
+
+		.btn-back {
+			padding: 0.55rem 0.875rem;
+			color: #666;
+			font-size: 0.875rem;
+			text-decoration: none;
+			display: inline-flex;
+			align-items: center;
+			gap: 0.3rem;
+			border-radius: 6px;
+			transition: color 0.2s;
+		}
+		.btn-back:hover { color: #4169E1; }
+
+		/* Resume wrapper */
+		.resume-wrap {
+			max-width: 860px;
+			margin: 2rem auto;
+			background: #fff;
+			padding: 2.5rem 3rem;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+			border-radius: 4px;
+			color: #333;
+			font-size: 0.925rem;
+			line-height: 1.55;
+		}
+
+		/* Resume header */
+		.resume-header {
+			text-align: center;
+			padding-bottom: 1.25rem;
+			margin-bottom: 0.25rem;
+			border-bottom: 2px solid #4169E1;
+		}
+		.resume-header h1 {
+			font-size: 2rem;
+			margin: 0 0 0.2rem;
+			color: #1a1a1a;
+			font-weight: 700;
+			letter-spacing: -0.02em;
+		}
+		.resume-header .job-title {
+			font-size: 1rem;
+			color: #4169E1;
+			font-weight: 600;
+			margin: 0 0 0.6rem;
+		}
+		.contact-row {
+			display: flex;
+			justify-content: center;
+			gap: 1.25rem;
+			flex-wrap: wrap;
+			font-size: 0.85rem;
+			color: #555;
+		}
+		.contact-row a { color: #555; text-decoration: none; }
+		.contact-row a:hover { color: #4169E1; }
+
+		/* Section titles */
+		.section-title {
+			font-size: 0.75rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.1em;
+			color: #4169E1;
+			border-bottom: 1.5px solid #4169E1;
+			padding-bottom: 0.3rem;
+			margin: 1.5rem 0 0.875rem;
+		}
+
+		/* Summary */
+		.summary p {
+			margin: 0 0 0.55rem;
+			font-size: 0.9rem;
+			line-height: 1.65;
+			color: #444;
+		}
+
+		/* Skills */
+		.skills-grid {
+			display: grid;
+			grid-template-columns: minmax(130px, auto) 1fr;
+			gap: 0.3rem 0.75rem;
+			font-size: 0.875rem;
+		}
+		.skill-cat { font-weight: 600; color: #333; }
+		.skill-list { color: #555; }
+
+		/* Experience */
+		.exp-entry { margin-bottom: 1rem; }
+		.exp-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-start;
+			gap: 0.5rem;
+			flex-wrap: wrap;
+		}
+		.exp-left { flex: 1; min-width: 0; }
+		.exp-position { font-weight: 700; font-size: 0.925rem; color: #1a1a1a; }
+		.exp-company { font-weight: 600; font-size: 0.9rem; color: #4169E1; }
+		.exp-meta { font-size: 0.8rem; color: #666; text-align: right; white-space: nowrap; flex-shrink: 0; }
+		.current-badge {
+			display: inline-block;
+			font-size: 0.68rem;
+			font-weight: 700;
+			background: rgba(56, 142, 60, 0.12);
+			color: #388E3C;
+			border-radius: 10px;
+			padding: 0.1rem 0.45rem;
+			margin-left: 0.4rem;
+			vertical-align: middle;
+		}
+
+		/* Projects */
+		.project-item { margin-bottom: 0.7rem; font-size: 0.875rem; }
+		.project-item strong { color: #1a1a1a; }
+		.project-tech { font-size: 0.8rem; color: #777; margin-top: 0.1rem; }
+
+		/* Responsive */
+		@media (max-width: 700px) {
+			.resume-wrap { padding: 1.5rem; margin: 1rem; }
+			.contact-row { gap: 0.6rem; font-size: 0.8rem; }
+			.action-bar { padding: 0.75rem 1rem; }
+		}
+	</style>
+</head>
+<body>
+
+<!-- Action bar (hidden when printing) -->
+<div class="action-bar no-print">
+	<div class="action-bar-info">
+		<strong>Prabin T P — Resume</strong>
+		<div class="action-bar-hint">For PDF: click "Download PDF" → choose "Save as PDF" in your browser's print dialog</div>
+	</div>
+	<div class="action-bar-buttons">
+		<button class="btn-pdf" onclick="window.print()">
+			<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg>
+			Download PDF
+		</button>
+		<button id="btn-excel" class="btn-excel">
+			<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg>
+			Download Excel
+		</button>
+		<a href="/" class="btn-back">
+			<svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/></svg>
+			Back
+		</a>
+	</div>
+</div>
+
+<!-- Resume document -->
+<div class="resume-wrap">
+
+	<!-- Header -->
+	<div class="resume-header">
+		<h1>{SITE_TITLE}</h1>
+		<p class="job-title">{SITE_DESCRIPTION}</p>
+		<div class="contact-row">
+			<span>
+				<svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="vertical-align:middle;margin-right:3px"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/></svg>
+				<a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+			</span>
+			<span>
+				<svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="vertical-align:middle;margin-right:3px"><path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>
+				{LOCATION}
+			</span>
+			<span>
+				<svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="vertical-align:middle;margin-right:3px"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+				<a href="https://github.com/prabintp" target="_blank" rel="noopener noreferrer">github.com/prabintp</a>
+			</span>
+			<span>
+				<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:3px"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+				<a href="https://www.linkedin.com/in/prabin-tp-47038932/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+			</span>
+		</div>
+	</div>
+
+	<!-- Professional Summary -->
+	<section class="summary">
+		<h2 class="section-title">Professional Summary</h2>
+		<p>
+			Seasoned software architect and full-stack engineer with 13+ years of experience spanning the full software development lifecycle — from enterprise-scale system design through production delivery. Specialising in enterprise software architecture, full-stack development, and the implementation of modern agentic AI frameworks that transform how organisations build and operate intelligent systems.
+		</p>
+		<p>
+			Proven track record defining and implementing end-to-end AI/ML and Generative AI application architectures, including Agentic AI frameworks (LangGraph, CrewAI, Llama Index), Retrieval-Augmented Generation (RAG) pipelines, and large-scale predictive modeling systems. Experienced across AWS, Azure, and GCP with a consistent focus on enterprise security, compliance, and scalability.
+		</p>
+	</section>
+
+	<!-- Core Technical Skills -->
+	<section>
+		<h2 class="section-title">Core Technical Skills</h2>
+		<div class="skills-grid">
+			<span class="skill-cat">AI &amp; GenAI</span>
+			<span class="skill-list">LangGraph, CrewAI, Llama Index, RAG, Agentic AI, Predictive Modeling, Prompt Engineering</span>
+
+			<span class="skill-cat">Frontend</span>
+			<span class="skill-list">React, Next.js, TypeScript, AngularJS, Tailwind CSS, Material-UI, HTML5, CSS3</span>
+
+			<span class="skill-cat">Backend</span>
+			<span class="skill-list">Node.js, REST APIs, GraphQL, PHP, Python</span>
+
+			<span class="skill-cat">Cloud &amp; Infra</span>
+			<span class="skill-list">AWS (Amplify, S3, CloudFront, CloudWatch), Azure, GCP, Terraform, Docker, GitHub Actions</span>
+
+			<span class="skill-cat">CMS &amp; Tools</span>
+			<span class="skill-list">Sitecore CMS, Adobe Experience Manager (AEM), NX Monorepo, Git</span>
+
+			<span class="skill-cat">Testing</span>
+			<span class="skill-list">Playwright, Jest, React Testing Library, Storybook</span>
+
+			<span class="skill-cat">Architecture</span>
+			<span class="skill-list">Solution Architecture, Microservices, Enterprise Patterns, Agile/SCRUM, CI/CD</span>
+
+			<span class="skill-cat">Databases</span>
+			<span class="skill-list">MySQL, MongoDB</span>
+		</div>
+	</section>
+
+	<!-- Professional Experience -->
+	<section>
+		<h2 class="section-title">Professional Experience</h2>
+		{experiences.map((exp) => (
+			<div class="exp-entry">
+				<div class="exp-header">
+					<div class="exp-left">
+						<div>
+							<span class="exp-position">{exp.data.position}</span>
+							{exp.data.current && <span class="current-badge">Current</span>}
+						</div>
+						<div class="exp-company">{exp.data.company}</div>
+					</div>
+					<div class="exp-meta">
+						<div>{formatDate(exp.data.startDate)} – {exp.data.current ? 'Present' : formatDate(exp.data.endDate!)}</div>
+						{exp.data.location && <div>{exp.data.location}</div>}
+					</div>
+				</div>
+			</div>
+		))}
+	</section>
+
+	<!-- Key Projects -->
+	<section>
+		<h2 class="section-title">Key Projects</h2>
+		{projects.map((p) => (
+			<div class="project-item">
+				<strong>{p.data.title}</strong> — {p.data.description}
+				<div class="project-tech">Technologies: {p.data.technologies.join(', ')}</div>
+			</div>
+		))}
+	</section>
+
+</div>
+
+<script define:vars={{ resumeData }}>
+document.getElementById('btn-excel').addEventListener('click', async function () {
+	const btn = this;
+	const originalHTML = btn.innerHTML;
+	btn.textContent = 'Preparing…';
+	btn.disabled = true;
+
+	try {
+		if (!window.XLSX) {
+			await new Promise((resolve, reject) => {
+				const s = document.createElement('script');
+				s.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+				s.onload = resolve;
+				s.onerror = () => reject(new Error('Failed to load SheetJS'));
+				document.head.appendChild(s);
+			});
+		}
+
+		const XLSX = window.XLSX;
+		const wb = XLSX.utils.book_new();
+
+		// ── Profile sheet ────────────────────────────────────────
+		const profileWs = XLSX.utils.aoa_to_sheet([
+			['Field', 'Value'],
+			['Name', resumeData.name],
+			['Title', resumeData.title],
+			['Email', resumeData.email],
+			['Location', resumeData.location],
+			['Current Company', resumeData.company],
+			['LinkedIn', 'https://www.linkedin.com/in/prabin-tp-47038932/'],
+			['GitHub', 'https://github.com/prabintp'],
+			['Website', 'https://prabintp.github.io'],
+		]);
+		profileWs['!cols'] = [{ wch: 20 }, { wch: 55 }];
+		XLSX.utils.book_append_sheet(wb, profileWs, 'Profile');
+
+		// ── Experience sheet ─────────────────────────────────────
+		const expWs = XLSX.utils.aoa_to_sheet([
+			['Company', 'Position', 'Start Date', 'End Date', 'Location'],
+			...resumeData.experiences.map(e => [
+				e.company, e.position, e.startDate, e.endDate, e.location
+			]),
+		]);
+		expWs['!cols'] = [{ wch: 32 }, { wch: 46 }, { wch: 12 }, { wch: 12 }, { wch: 26 }];
+		XLSX.utils.book_append_sheet(wb, expWs, 'Experience');
+
+		// ── Skills sheet ─────────────────────────────────────────
+		const skillsWs = XLSX.utils.aoa_to_sheet([
+			['Category', 'Skills'],
+			['AI & GenAI', 'LangGraph, CrewAI, Llama Index, RAG, Agentic AI, Predictive Modeling, Prompt Engineering'],
+			['Frontend', 'React, Next.js, TypeScript, AngularJS, Tailwind CSS, Material-UI, HTML5, CSS3'],
+			['Backend', 'Node.js, REST APIs, GraphQL, PHP, Python'],
+			['Cloud & Infrastructure', 'AWS (Amplify, S3, CloudFront, CloudWatch), Azure, GCP, Terraform, Docker, GitHub Actions'],
+			['CMS & Tools', 'Sitecore CMS, Adobe Experience Manager (AEM), NX Monorepo, Git'],
+			['Testing', 'Playwright, Jest, React Testing Library, Storybook'],
+			['Architecture', 'Solution Architecture, Microservices, Enterprise Patterns, Agile/SCRUM, CI/CD'],
+			['Databases', 'MySQL, MongoDB'],
+		]);
+		skillsWs['!cols'] = [{ wch: 22 }, { wch: 75 }];
+		XLSX.utils.book_append_sheet(wb, skillsWs, 'Skills');
+
+		// ── Projects sheet ───────────────────────────────────────
+		const projWs = XLSX.utils.aoa_to_sheet([
+			['Title', 'Description', 'Technologies'],
+			...resumeData.projects.map(p => [p.title, p.description, p.technologies]),
+		]);
+		projWs['!cols'] = [{ wch: 36 }, { wch: 56 }, { wch: 65 }];
+		XLSX.utils.book_append_sheet(wb, projWs, 'Projects');
+
+		XLSX.writeFile(wb, `${resumeData.name.replace(/\s+/g, '_')}_Resume.xlsx`);
+	} catch (err) {
+		alert('Could not generate the Excel file. Please try again.');
+		console.error(err);
+	} finally {
+		btn.innerHTML = originalHTML;
+		btn.disabled = false;
+	}
+});
+</script>
+
+</body>
+</html>
