@@ -1,0 +1,207 @@
+---
+const GITHUB_USERNAME = 'prabintp';
+
+interface GitHubRepo {
+	stargazers_count: number;
+	fork: boolean;
+}
+
+const stats = {
+	publicRepos: '–' as number | string,
+	totalStars: '–' as number | string,
+	followers: '–' as number | string,
+	yearsOnGitHub: '–' as number | string,
+};
+
+try {
+	const [userRes, reposRes] = await Promise.all([
+		fetch(`https://api.github.com/users/${GITHUB_USERNAME}`, {
+			headers: { Accept: 'application/vnd.github.v3+json' },
+		}),
+		fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&type=public`, {
+			headers: { Accept: 'application/vnd.github.v3+json' },
+		}),
+	]);
+
+	if (userRes.ok) {
+		const user = await userRes.json();
+		stats.publicRepos = user.public_repos;
+		stats.followers = user.followers;
+		const createdYear = new Date(user.created_at).getFullYear();
+		stats.yearsOnGitHub = new Date().getFullYear() - createdYear;
+	}
+
+	if (reposRes.ok) {
+		const repos: GitHubRepo[] = await reposRes.json();
+		stats.totalStars = repos
+			.filter((repo) => !repo.fork)
+			.reduce((sum, repo) => sum + repo.stargazers_count, 0);
+	}
+} catch (_) {
+	// API unavailable — keep placeholder values
+}
+---
+
+<div class="card github-widget">
+	<div class="github-header">
+		<div class="github-title">
+			<svg viewBox="0 0 16 16" width="22" height="22" fill="currentColor" aria-hidden="true">
+				<path
+					d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+				></path>
+			</svg>
+			<h3>GitHub Activity</h3>
+		</div>
+		<a
+			href={`https://github.com/${GITHUB_USERNAME}`}
+			target="_blank"
+			rel="noopener noreferrer"
+			class="github-link"
+		>
+			@{GITHUB_USERNAME} ↗
+		</a>
+	</div>
+
+	<div class="github-body">
+		<div class="stats-grid">
+			<div class="stat">
+				<span class="stat-value">{stats.publicRepos}</span>
+				<span class="stat-label">Repositories</span>
+			</div>
+			<div class="stat">
+				<span class="stat-value">{stats.totalStars}</span>
+				<span class="stat-label">Stars Earned</span>
+			</div>
+			<div class="stat">
+				<span class="stat-value">{stats.followers}</span>
+				<span class="stat-label">Followers</span>
+			</div>
+			<div class="stat">
+				<span class="stat-value">{stats.yearsOnGitHub}</span>
+				<span class="stat-label">Yrs Active</span>
+			</div>
+		</div>
+
+		<div class="chart-section">
+			<span class="chart-label">Contribution Activity</span>
+			<div class="chart-container">
+				<img
+					src={`https://ghchart.rshah.org/${GITHUB_USERNAME}`}
+					alt={`GitHub contribution chart for ${GITHUB_USERNAME}`}
+					loading="lazy"
+				/>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.github-widget {
+		width: 100%;
+	}
+
+	.github-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: var(--space-3);
+	}
+
+	.github-title {
+		display: flex;
+		align-items: center;
+		gap: 0.625rem;
+		color: var(--color-secondary);
+	}
+
+	.github-title h3 {
+		margin: 0;
+		font-size: 1.125rem;
+		color: var(--color-secondary);
+	}
+
+	.github-link {
+		font-size: 0.875rem;
+		color: var(--color-text-secondary);
+		text-decoration: none;
+		transition: color 0.2s ease;
+	}
+
+	.github-link:hover {
+		color: var(--color-accent);
+	}
+
+	.github-body {
+		display: grid;
+		grid-template-columns: 190px 1fr;
+		gap: var(--space-4);
+		align-items: center;
+	}
+
+	.stats-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: var(--space-2) var(--space-3);
+	}
+
+	.stat {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+
+	.stat-value {
+		font-size: 1.75rem;
+		font-weight: 700;
+		color: var(--color-accent);
+		line-height: 1;
+	}
+
+	.stat-label {
+		font-size: 0.7rem;
+		color: var(--color-text-secondary);
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		font-weight: 500;
+	}
+
+	.chart-section {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		min-width: 0;
+	}
+
+	.chart-label {
+		font-size: 0.7rem;
+		color: var(--color-text-secondary);
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		font-weight: 500;
+	}
+
+	.chart-container {
+		background: #0d1117;
+		border-radius: 6px;
+		padding: 0.75rem;
+		line-height: 0;
+	}
+
+	.chart-container img {
+		width: 100%;
+		height: auto;
+		display: block;
+		/* Convert light-mode chart to dark appearance */
+		filter: invert(1) hue-rotate(180deg) saturate(1.8) brightness(0.85);
+	}
+
+	@media (max-width: 640px) {
+		.github-body {
+			grid-template-columns: 1fr;
+		}
+
+		.stats-grid {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+</style>

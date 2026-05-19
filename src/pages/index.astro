@@ -4,6 +4,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE, COMPANY, LOCATION, TIMEZONE, EMAIL } from '../consts';
+import GitHubWidget from '../components/GitHubWidget.astro';
 
 const featuredProjects = (await getCollection('projects'))
 	.filter(p => p.data.featured)
@@ -153,6 +154,11 @@ const timeString = now.toLocaleTimeString('en-US', {
 						View all projects →
 					</a>
 				</div>
+			</section>
+
+			<!-- GitHub Activity Widget -->
+			<section style="margin-bottom: var(--space-8);">
+				<GitHubWidget />
 			</section>
 
 			<!-- Contact Section -->
