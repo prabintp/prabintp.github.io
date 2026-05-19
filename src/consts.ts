@@ -7,3 +7,4 @@ export const COMPANY = 'Publicis Sapient';
 export const LOCATION = 'Dubai';
 export const TIMEZONE = 'UTC -12:00';
 export const EMAIL = 'prabintp@gmail.com';
+export const PHONE = '+971 509798134';
