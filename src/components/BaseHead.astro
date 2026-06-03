@@ -17,6 +17,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const { title, description, image = FallbackImage } = Astro.props;
 ---
 
+<!-- Theme: must run synchronously before paint to prevent flash -->
+<script is:inline>
+	(function () {
+		var stored = localStorage.getItem('theme');
+		var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+		document.documentElement.setAttribute('data-theme', stored ?? (prefersDark ? 'dark' : 'light'));
+	})();
+</script>
+
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />

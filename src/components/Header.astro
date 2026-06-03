@@ -1,6 +1,7 @@
 ---
 import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
+import ThemeToggle from './ThemeToggle.astro';
 ---
 
 <header>
@@ -12,7 +13,9 @@ import HeaderLink from './HeaderLink.astro';
 			<HeaderLink href="/projects">Projects</HeaderLink>
 			<HeaderLink href="/resume">Resume</HeaderLink>
 		</div>
-		<div class="social-links">
+		<div class="right-controls">
+			<ThemeToggle />
+			<div class="social-links">
 			<a href="https://www.linkedin.com/in/prabin-tp-47038932/" target="_blank" rel="noopener noreferrer">
 				<span class="sr-only">LinkedIn</span>
 				<svg viewBox="0 0 24 24" aria-hidden="true" width="28" height="28">
@@ -40,6 +43,7 @@ import HeaderLink from './HeaderLink.astro';
 					></path></svg
 				>
 			</a>
+		</div>
 		</div>
 	</nav>
 </header>
@@ -83,6 +87,11 @@ import HeaderLink from './HeaderLink.astro';
 		text-decoration: none;
 		border-bottom-color: var(--color-accent);
 		color: var(--color-accent);
+	}
+	.right-controls {
+		display: flex;
+		align-items: center;
+		gap: var(--space-1);
 	}
 	.social-links {
 		display: flex;
