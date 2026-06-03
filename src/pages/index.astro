@@ -3,7 +3,8 @@ import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE, COMPANY, LOCATION, TIMEZONE, EMAIL } from '../consts';
+import { SITE_DESCRIPTION, SITE_TITLE, COMPANY, LOCATION, TIMEZONE, EMAIL, PHONE } from '../consts';
+import GitHubWidget from '../components/GitHubWidget.astro';
 
 const featuredProjects = (await getCollection('projects'))
 	.filter(p => p.data.featured)
@@ -57,15 +58,21 @@ const timeString = now.toLocaleTimeString('en-US', {
 						</svg>
 						<a href={`mailto:${EMAIL}`} style="color: var(--color-text-secondary); text-decoration: none;">{EMAIL}</a>
 					</div>
+					<div style="display: flex; align-items: center; gap: 0.5rem;">
+						<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+							<path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+						</svg>
+						<a href={`tel:${PHONE}`} style="color: var(--color-text-secondary); text-decoration: none;">{PHONE}</a>
+					</div>
 				</div>
 				<p style="font-size: var(--font-size-body-lg); color: var(--color-text-primary); max-width: 900px; margin-bottom: var(--space-4); line-height: 1.6;">
-					Innovative software engineer with extensive experience in the full software development lifecycle – from concept through delivery of next-generation applications and customizable solutions. Knowledgeable in development methodologies, as a software Engineer in end to end process of SaaS Web Applications, contributing to the design and rollout of cutting-edge software applications.
+					Seasoned software architect and full-stack engineer with deep expertise spanning the full software development lifecycle — from enterprise-scale system design through production delivery. Specialising in enterprise software architecture, full-stack development, and building secure, reliable systems that meet the standards of complex, multi-stakeholder programmes.
 				</p>
 				<p style="font-size: var(--font-size-body-lg); color: var(--color-text-primary); max-width: 900px; margin-bottom: var(--space-4); line-height: 1.6;">
-					Known for excellent troubleshooting skills with strong analytical, problem solving, technical, interpersonal and communication abilities, coupled with an entrepreneurial drive. Quick learner with proven ability to adapt to new languages and frameworks rapidly, as evidenced by the variety of technologies mastered.
+					Proven track record designing and delivering enterprise software solutions across diverse industry verticals. Hands-on experience building secure, production-grade REST APIs and overseeing the deployment of applications across cloud and on-premise environments — with a consistent focus on performance, security, and compliance.
 				</p>
 				<p style="font-size: var(--font-size-body-lg); color: var(--color-text-primary); max-width: 900px; margin-bottom: var(--space-4); line-height: 1.6;">
-					Specializing in AI-driven development planning via agentic systems for task breakdown, leveraging AI for agentic coding and autonomous feature generation, automated code refactoring, intelligent documentation generation, and AI-assisted code reviewing to enforce quality and best practices at scale.
+					Experienced across major cloud platforms (AWS, Azure, and GCP) as well as on-premise deployments, with a consistent focus on enterprise architecture, security, and scalability. Known for bridging strategic vision with practical engineering execution — enforcing quality, best practices, and technical excellence at scale.
 				</p>
 				<div style="display: flex; gap: var(--space-2); flex-wrap: wrap;">
 					<a href="/experience" class="btn-primary">
@@ -73,6 +80,10 @@ const timeString = now.toLocaleTimeString('en-US', {
 					</a>
 					<a href="/projects" class="btn-secondary">
 						See Projects
+					</a>
+					<a href="/resume" class="btn-secondary" style="display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(65,105,225,0.08); color: var(--color-accent); border-color: rgba(65,105,225,0.3);">
+						<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg>
+						Download Resume
 					</a>
 				</div>
 			</section>
@@ -82,34 +93,47 @@ const timeString = now.toLocaleTimeString('en-US', {
 				<h2 style="margin-bottom: var(--space-4);">Core Expertise</h2>
 				<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-4);">
 					<div class="card">
-						<h3>Front-End Development</h3>
-						<p style="color: var(--color-text-secondary); margin-bottom: var(--space-3);">Expert in modern JavaScript frameworks and libraries</p>
+						<h3>Full-Stack & Enterprise Architecture</h3>
+						<p style="color: var(--color-text-secondary); margin-bottom: var(--space-3);">Scalable enterprise solutions and secure production-grade APIs</p>
 						<div style="display: flex; flex-wrap: wrap; gap: var(--space-1);">
 							<span class="tag">React</span>
 							<span class="tag">Next.js</span>
 							<span class="tag">TypeScript</span>
-							<span class="tag">Tailwind CSS</span>
+							<span class="tag">REST APIs</span>
+							<span class="tag">NX Monorepo</span>
 						</div>
 					</div>
 
 					<div class="card">
-						<h3>Cloud & DevOps</h3>
-						<p style="color: var(--color-text-secondary); margin-bottom: var(--space-3);">AWS infrastructure and CI/CD expertise</p>
+						<h3>Cloud & On-Premise Deployment</h3>
+						<p style="color: var(--color-text-secondary); margin-bottom: var(--space-3);">Multi-cloud and on-premise deployments with enterprise security focus</p>
 						<div style="display: flex; flex-wrap: wrap; gap: var(--space-1);">
 							<span class="tag">AWS</span>
+							<span class="tag">Azure</span>
+							<span class="tag">GCP</span>
 							<span class="tag">Terraform</span>
-							<span class="tag">GitHub Actions</span>
 							<span class="tag">Docker</span>
 						</div>
 					</div>
 
 					<div class="card">
-						<h3>Leadership</h3>
-						<p style="color: var(--color-text-secondary); margin-bottom: var(--space-3);">Technical leadership and team mentoring</p>
+						<h3>CMS & Content Platforms</h3>
+						<p style="color: var(--color-text-secondary); margin-bottom: var(--space-3);">Enterprise CMS implementations and digital experience platforms</p>
 						<div style="display: flex; flex-wrap: wrap; gap: var(--space-1);">
-							<span class="tag">Team Lead</span>
+							<span class="tag">Sitecore</span>
+							<span class="tag">AEM</span>
+							<span class="tag">GraphQL</span>
+							<span class="tag">Headless CMS</span>
+						</div>
+					</div>
+
+					<div class="card">
+						<h3>Architecture & Leadership</h3>
+						<p style="color: var(--color-text-secondary); margin-bottom: var(--space-3);">Technical leadership, delivery oversight, and team mentoring</p>
+						<div style="display: flex; flex-wrap: wrap; gap: var(--space-1);">
+							<span class="tag">Solution Architecture</span>
 							<span class="tag">Agile/SCRUM</span>
-							<span class="tag">Architecture</span>
+							<span class="tag">CI/CD</span>
 							<span class="tag">Mentoring</span>
 						</div>
 					</div>
@@ -139,6 +163,11 @@ const timeString = now.toLocaleTimeString('en-US', {
 						View all projects →
 					</a>
 				</div>
+			</section>
+
+			<!-- GitHub Activity Widget -->
+			<section style="margin-bottom: var(--space-8);">
+				<GitHubWidget />
 			</section>
 
 			<!-- Contact Section -->

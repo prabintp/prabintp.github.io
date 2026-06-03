@@ -23,6 +23,10 @@
 	--color-text-secondary: #666666;
 	--color-text-light: #999999;
 
+	/* Surface / Border */
+	--color-border: #E5E5E5;
+	--color-surface-hover: #E8E8E8;
+
 	/* Spacing - 8pt baseline grid */
 	--space-1: 0.5rem;  /* 8px */
 	--space-2: 1rem;    /* 16px */
@@ -201,14 +205,37 @@ a:hover {
 .btn-secondary {
 	background: var(--color-primary-alt);
 	color: var(--color-text-primary);
-	border: 1px solid #e5e5e5;
+	border: 1px solid var(--color-border);
 }
 
 .btn-secondary:hover {
-	background: #e8e8e8;
+	background: var(--color-surface-hover);
 	color: var(--color-text-primary);
 	transform: translateY(-1px);
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+	--color-primary: #1E1E2E;
+	--color-primary-alt: #13131E;
+	--color-secondary: #E2E2F0;
+	--color-secondary-dark: #8080C0;
+	--color-accent: #7C9EFF;
+	--color-accent-hover: #96B2FF;
+	--color-text-primary: #DCDCEE;
+	--color-text-secondary: #9090AA;
+	--color-text-light: #606078;
+	--color-border: #2E2E48;
+	--color-surface-hover: #252538;
+}
+
+/* Smooth theme transitions */
+body,
+.card,
+header,
+footer {
+	transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
 /* Responsive Typography */
