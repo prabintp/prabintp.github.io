@@ -28,7 +28,6 @@ function extractBullets(body: string): string[] {
 }
 
 const skillsData = [
-	{ category: 'AI & GenAI', items: 'LangGraph, CrewAI, Llama Index, RAG, Agentic AI, Predictive Modeling, Prompt Engineering' },
 	{ category: 'Frontend', items: 'React, Next.js, TypeScript, AngularJS, Tailwind CSS, Material-UI, HTML5, CSS3' },
 	{ category: 'Backend', items: 'Node.js, REST APIs, GraphQL, PHP, Python' },
 	{ category: 'Cloud & Infrastructure', items: 'AWS (Amplify, S3, CloudFront, CloudWatch), Azure, GCP, Terraform, Docker, GitHub Actions' },
@@ -318,10 +317,10 @@ const resumeData = {
 	<section class="summary">
 		<h2 class="section-title">Professional Summary</h2>
 		<p>
-			Seasoned software architect and full-stack engineer with 13+ years of experience spanning the full software development lifecycle — from enterprise-scale system design through production delivery. Specialising in enterprise software architecture, full-stack development, and the implementation of modern agentic AI frameworks that transform how organisations build and operate intelligent systems.
+			Seasoned software architect and full-stack engineer with 13+ years of experience spanning the full software development lifecycle — from enterprise-scale system design through production delivery. Specialising in enterprise software architecture, full-stack development, and building secure, reliable systems that meet the standards of complex, multi-stakeholder programmes.
 		</p>
 		<p>
-			Proven track record defining and implementing end-to-end AI/ML and Generative AI application architectures, including Agentic AI frameworks (LangGraph, CrewAI, Llama Index), Retrieval-Augmented Generation (RAG) pipelines, and large-scale predictive modeling systems. Experienced across AWS, Azure, and GCP with a consistent focus on enterprise security, compliance, and scalability.
+			Proven track record designing and delivering enterprise software solutions across diverse industry verticals. Hands-on experience building secure, production-grade REST APIs and deploying applications across AWS, Azure, and GCP with a consistent focus on enterprise security, compliance, and scalability.
 		</p>
 	</section>
 
@@ -329,9 +328,6 @@ const resumeData = {
 	<section>
 		<h2 class="section-title">Core Technical Skills</h2>
 		<div class="skills-grid">
-			<span class="skill-cat">AI &amp; GenAI</span>
-			<span class="skill-list">LangGraph, CrewAI, Llama Index, RAG, Agentic AI, Predictive Modeling, Prompt Engineering</span>
-
 			<span class="skill-cat">Frontend</span>
 			<span class="skill-list">React, Next.js, TypeScript, AngularJS, Tailwind CSS, Material-UI, HTML5, CSS3</span>
 
@@ -452,11 +448,11 @@ document.getElementById('btn-word').addEventListener('click', async function () 
 			sectionTitle('Professional Summary'),
 			new Paragraph({
 				spacing: { after: 60 },
-				children: [new TextRun({ size: 21, font: FONT, color: COLOR_BODY, text: 'Seasoned software architect and full-stack engineer with 13+ years of experience spanning the full software development lifecycle — from enterprise-scale system design through production delivery. Specialising in enterprise software architecture, full-stack development, and the implementation of modern agentic AI frameworks that transform how organisations build and operate intelligent systems.' })],
+				children: [new TextRun({ size: 21, font: FONT, color: COLOR_BODY, text: 'Seasoned software architect and full-stack engineer with 13+ years of experience spanning the full software development lifecycle — from enterprise-scale system design through production delivery. Specialising in enterprise software architecture, full-stack development, and building secure, reliable systems that meet the standards of complex, multi-stakeholder programmes.' })],
 			}),
 			new Paragraph({
 				spacing: { after: 80 },
-				children: [new TextRun({ size: 21, font: FONT, color: COLOR_BODY, text: 'Proven track record defining and implementing end-to-end AI/ML and Generative AI application architectures, including Agentic AI frameworks (LangGraph, CrewAI, Llama Index), Retrieval-Augmented Generation (RAG) pipelines, and large-scale predictive modeling systems. Experienced across AWS, Azure, and GCP with a consistent focus on enterprise security, compliance, and scalability.' })],
+				children: [new TextRun({ size: 21, font: FONT, color: COLOR_BODY, text: 'Proven track record designing and delivering enterprise software solutions across diverse industry verticals. Hands-on experience building secure, production-grade REST APIs and deploying applications across AWS, Azure, and GCP with a consistent focus on enterprise security, compliance, and scalability.' })],
 			}),
 
 			// Core Technical Skills
