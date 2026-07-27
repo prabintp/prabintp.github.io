@@ -11,6 +11,10 @@ const projects = (await getCollection('projects')).sort(
 	(a, b) => a.data.order - b.data.order
 );
 
+const certifications = (await getCollection('certifications')).sort(
+	(a, b) => a.data.order - b.data.order
+);
+
 function formatDate(date: Date) {
 	return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
 }
@@ -59,6 +63,12 @@ const resumeData = {
 		title: p.data.title,
 		description: p.data.description,
 		technologies: p.data.technologies.join(', '),
+	})),
+	certifications: certifications.map(c => ({
+		title: c.data.title,
+		issuer: c.data.issuer,
+		issueDate: c.data.issueDate ? formatDate(c.data.issueDate) : '',
+		credentialId: c.data.credentialId || '',
 	})),
 };
 ---
@@ -251,6 +261,11 @@ const resumeData = {
 		.project-item strong { color: #1a1a1a; }
 		.project-tech { font-size: 0.8rem; color: #777; margin-top: 0.1rem; }
 
+		/* Certifications */
+		.cert-item { margin-bottom: 0.4rem; font-size: 0.875rem; }
+		.cert-item strong { color: #1a1a1a; }
+		.cert-meta { font-size: 0.8rem; color: #777; }
+
 		/* Responsive */
 		@media (max-width: 700px) {
 			.resume-wrap { padding: 1.5rem; margin: 1rem; }
@@ -318,7 +333,7 @@ const resumeData = {
 	<section class="summary">
 		<h2 class="section-title">Professional Summary</h2>
 		<p>
-			Seasoned software architect and full-stack engineer with 13+ years of experience spanning the full software development lifecycle — from enterprise-scale system design through production delivery. Specialising in enterprise software architecture, full-stack development, and the implementation of modern agentic AI frameworks that transform how organisations build and operate intelligent systems.
+			Full-stack engineer and Lead Forward Deployed Engineer with 13+ years of experience spanning the full software development lifecycle — from client discovery through production delivery. Leads end-to-end delivery of AI-powered products and solutions, working closely with clients on AI integration, full-stack engineering, client consulting, and project ownership within a consulting environment.
 		</p>
 		<p>
 			Proven track record defining and implementing end-to-end AI/ML and Generative AI application architectures, including Agentic AI frameworks (LangGraph, CrewAI, Llama Index), Retrieval-Augmented Generation (RAG) pipelines, and large-scale predictive modeling systems. Experienced across AWS, Azure, and GCP with a consistent focus on enterprise security, compliance, and scalability.
@@ -388,6 +403,20 @@ const resumeData = {
 		))}
 	</section>
 
+	<!-- Certifications -->
+	<section>
+		<h2 class="section-title">Certifications</h2>
+		{certifications.map((c) => (
+			<div class="cert-item">
+				<strong>{c.data.title}</strong> — {c.data.issuer}
+				<span class="cert-meta">
+					{c.data.issueDate && ` · Issued ${formatDate(c.data.issueDate)}`}
+					{c.data.credentialId && ` · Credential ID: ${c.data.credentialId}`}
+				</span>
+			</div>
+		))}
+	</section>
+
 </div>
 
 <script define:vars={{ resumeData }}>
@@ -452,7 +481,7 @@ document.getElementById('btn-word').addEventListener('click', async function () 
 			sectionTitle('Professional Summary'),
 			new Paragraph({
 				spacing: { after: 60 },
-				children: [new TextRun({ size: 21, font: FONT, color: COLOR_BODY, text: 'Seasoned software architect and full-stack engineer with 13+ years of experience spanning the full software development lifecycle — from enterprise-scale system design through production delivery. Specialising in enterprise software architecture, full-stack development, and the implementation of modern agentic AI frameworks that transform how organisations build and operate intelligent systems.' })],
+				children: [new TextRun({ size: 21, font: FONT, color: COLOR_BODY, text: 'Full-stack engineer and Lead Forward Deployed Engineer with 13+ years of experience spanning the full software development lifecycle — from client discovery through production delivery. Leads end-to-end delivery of AI-powered products and solutions, working closely with clients on AI integration, full-stack engineering, client consulting, and project ownership within a consulting environment.' })],
 			}),
 			new Paragraph({
 				spacing: { after: 80 },
@@ -507,6 +536,20 @@ document.getElementById('btn-word').addEventListener('click', async function () 
 						new TextRun({ text: p.title + ': ', bold: true, size: 20, font: FONT, color: COLOR_NAME }),
 						new TextRun({ text: p.description + '  ', size: 20, font: FONT, color: COLOR_BODY }),
 						new TextRun({ text: '[' + p.technologies + ']', size: 18, font: FONT, color: COLOR_MUTED, italics: true }),
+					],
+				})
+			),
+
+			// Certifications
+			sectionTitle('Certifications'),
+			...resumeData.certifications.map(c =>
+				new Paragraph({
+					spacing: { after: 40 },
+					children: [
+						new TextRun({ text: c.title + ' — ', bold: true, size: 20, font: FONT, color: COLOR_NAME }),
+						new TextRun({ text: c.issuer, size: 20, font: FONT, color: COLOR_BODY }),
+						...(c.issueDate ? [new TextRun({ text: '  · Issued ' + c.issueDate, size: 18, font: FONT, color: COLOR_MUTED })] : []),
+						...(c.credentialId ? [new TextRun({ text: '  · Credential ID: ' + c.credentialId, size: 18, font: FONT, color: COLOR_MUTED })] : []),
 					],
 				})
 			),

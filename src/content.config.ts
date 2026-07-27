@@ -44,4 +44,16 @@ const experience = defineCollection({
 		}),
 });
 
-export const collections = { blog, projects, experience };
+const certifications = defineCollection({
+	loader: glob({ base: './src/content/certifications', pattern: '**/*.{md,mdx}' }),
+	schema: () =>
+		z.object({
+			title: z.string(),
+			issuer: z.string(),
+			issueDate: z.coerce.date().optional(),
+			credentialId: z.string().optional(),
+			order: z.number().default(999),
+		}),
+});
+
+export const collections = { blog, projects, experience, certifications };
