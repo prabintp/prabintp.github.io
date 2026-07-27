@@ -8,11 +8,11 @@ order: 1
 
 ## Overview
 
-Led the development of a scalable, multi-tenant travel and tourism platform designed to deliver customized booking and itinerary experiences using modern web technologies and cloud infrastructure.
+Led end-to-end delivery of a scalable, multi-tenant travel and tourism platform as embedded Forward Deployed Engineer, working directly with client stakeholders from initial discovery through production launch to deliver customized booking and itinerary experiences using modern web technologies and cloud infrastructure.
 
-## Role: Senior Lead / Architect
+## Role: Lead Forward Deployed Engineer
 
-As the technical lead and architect, I was responsible for designing the overall system architecture, establishing development standards, and leading the engineering team through implementation.
+As the Lead Forward Deployed Engineer, I owned the engagement end-to-end — running client discovery, designing the overall system architecture, establishing development standards, and leading the engineering team through implementation and into production.
 
 ## Technical Architecture
 
