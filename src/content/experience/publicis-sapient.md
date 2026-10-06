@@ -1,6 +1,6 @@
 ---
 company: "Publicis Sapient"
-position: "Full Stack Engineer | Lead Forward Deployed Engineer"
+position: "Lead Experience Engineer"
 startDate: 2015-12-01
 location: "Dubai Media City, UAE"
 current: true
@@ -8,37 +8,33 @@ current: true
 
 ## Role Overview
 
-Leading end-to-end delivery of AI-powered products and solutions as a Forward Deployed Engineer, working directly with clients from discovery through production. Combines hands-on full-stack engineering with client consulting and project ownership — embedding within client teams to translate business problems into shipped, production-grade AI and software systems, while overseeing the broader technical strategy across enterprise engagements.
+Lead Experience Engineer within MENA PS at Publicis Sapient. Leads technical delivery of large-scale digital transformation programmes — owning architecture definition, solution design, engineering governance, and delivery oversight — while staying hands-on with React, Next.js, TypeScript, Node.js, and GraphQL. Recently focused on Spec-Driven Development and AI-assisted delivery workflows using Claude Code, Cursor, and Slingshot.
 
 ## Key Responsibilities
 
-- **Forward Deployed Delivery**: Owning end-to-end delivery of AI-powered products from client discovery through production launch, embedding directly with client teams to ensure solutions match real business needs
-- **Client Consulting**: Acting as the technical counterpart to client stakeholders — running discovery sessions, shaping solution design, and translating business requirements into actionable engineering plans
-- **AI Integration**: Defining and implementing end-to-end AI/ML and Generative AI application architectures, including Agentic AI frameworks (LangGraph, CrewAI, Llama Index), Retrieval-Augmented Generation (RAG) pipelines, and large-scale predictive modeling systems
-- **Full-Stack Engineering**: Delivering secure, production-grade full-stack applications using modern frameworks across the entire software development lifecycle, from architecture through hands-on implementation
-- **Agentic AI Deployment**: Overseeing the production deployment of advanced AI applications — from Agentic AI orchestration systems to complex GenAI/RAG solutions — with a focus on reliability, observability, and enterprise security
-- **Project Ownership**: Owning delivery outcomes within a consulting environment — managing scope, technical risk, and stakeholder expectations across complex, multi-stakeholder programmes
-- **Cloud & Infrastructure**: Managing multi-cloud deployments (AWS, Azure, GCP) and on-premise infrastructure with an emphasis on enterprise architecture, security posture, and scalability
-- **Team Leadership**: Leading cross-functional teams, mentoring engineers, and driving technical excellence across client engagements
+- **Spec-Driven & AI-Assisted Delivery**: Designing and maintaining the reusable components, execution structures, and framework assets that let AI tools reliably deliver software integrated with Figma designs, JIRA, and AI workflows; owning an autonomous development workflow with Claude Code, Cursor, and Slingshot
+- **Architecture & Solution Design**: Defining scalable, multi-tenant architectures with Next.js (SSR, SSG, ISR, Middleware), NX monorepos, GraphQL, and headless CMS platforms (AEM, Sitecore)
+- **Security & Performance**: Leading web security enhancements and cybersecurity remediation, performance optimisation, caching strategies (Cloudflare CDN, Redis), and image and media delivery optimisation
+- **Production Health & Observability**: Establishing server logging, monitoring, and alerting practices, proactive performance reporting, and CI/CD pipeline optimisation
+- **Cloud Migration**: Leading AWS migration planning — dependency analysis, phased execution strategy, risk identification, and coordination of client-side prerequisites
+- **Technical Discovery & POCs**: Benchmarking technologies, evaluating third-party integrations, and leading POCs for cookie management, analytics, AEM Universal Experience Editor, and Figma-to-code workflows
+- **Quality & Standards**: Driving SEO, analytics (GTM, Google Analytics), WCAG accessibility compliance, and unit and end-to-end test automation with Playwright
+- **Leadership**: Project estimation, team onboarding, architecture and design reviews, mentoring, and close collaboration with UX, Product, DevOps, and business stakeholders
 
 ## Technical Focus
 
-- Agentic AI frameworks: LangGraph, CrewAI, Llama Index
-- RAG architectures and large-scale predictive modeling systems
-- Next.js, React, TypeScript, NX Monorepo architecture
-- Secure REST API design and implementation
-- AWS, Azure, GCP cloud services and on-premise deployment
-- Sitecore CMS and Adobe Experience Manager (AEM)
-- GraphQL and RESTful APIs
-- Infrastructure as Code: Terraform, CI/CD pipelines
-- Testing with Playwright, Storybook, and comprehensive unit testing
-- Performance optimisation and accessibility standards (WCAG, ARIA)
+- React, Next.js, TypeScript, Node.js, GraphQL
+- NX Monorepo, TurboRepo, Tailwind CSS, Material-UI
+- Adobe Experience Manager (AEM), Sitecore, headless CMS
+- AWS (EC2, S3, CloudWatch), Cloudflare CDN, Redis, DNS
+- CI/CD with GitHub Actions, cloud monitoring and alerting
+- Playwright, functional, end-to-end, and performance testing
+- AI engineering: agentic workflows, agent skills, LLM integration, RAG, N8N, Ollama, Sapient Bodhi
 
-## Achievements
+## Key Engagements
 
-- Led end-to-end delivery of AI-powered products as a Forward Deployed Engineer, working directly with clients from discovery through production
-- Architected and delivered end-to-end Agentic AI and GenAI/RAG systems for enterprise clients, enabling intelligent automation at scale
-- Successfully led multiple large-scale projects including multi-tenant travel platforms and retail applications across cloud and on-premise environments
-- Established enterprise architecture standards for AI application deployment, covering security, observability, and lifecycle management
-- Implemented comprehensive monitoring and logging solutions for proactive issue identification across AI and traditional workloads
-- Mentored and developed team members to achieve personal and professional growth in both traditional software engineering and AI-driven development
+- **Diriyah Gate — Marketing Transformation (DSA & DSO)**: Lead Engineer for Spec-Driven Development on a multi-tenant travel and tourism platform; also hardened security, performance, caching, and media delivery for UAT and production
+- **New Murabba — Marketing Platform & Sustain**: Lead Engineer for the Next.js + Sitecore build behind Cloudflare CDN with Redis caching, then for the production support phase
+- **Diriyah Company — Marketing Transformation**: Front-End Lead; led POCs and AWS migration planning
+- **Diriyah Destination**: Multi-tenant NX monorepo platform on Next.js with AEM as CMS
+- **Altria**: UI Lead across multiple tracks of an AEM implementation for a portfolio of 12+ brands

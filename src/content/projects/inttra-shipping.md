@@ -2,7 +2,7 @@
 title: "INTTRA Ocean Shipping E-Marketing"
 description: "Single Page Application for ocean shipping e-marketing built with AngularJS, featuring responsive design and RESTful services."
 technologies: ["AngularJS", "RequireJS", "Bootstrap", "JavaScript", "RESTful APIs", "JSON"]
-order: 5
+order: 8
 ---
 
 ## Overview

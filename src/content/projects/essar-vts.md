@@ -2,7 +2,7 @@
 title: "ESSAR Vehicle Tracking System"
 description: "Real-time vehicle tracking system with live tracking, detailed reports, and Google Maps integration for ESSAR group fleet management."
 technologies: ["AngularJS", "Bootstrap", "HTML5", "CSS3", "jQuery", "Google Maps API", "PHP", "MySQL", "Charts"]
-order: 6
+order: 9
 ---
 
 ## Overview
