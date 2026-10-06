@@ -3,8 +3,8 @@ title: "Invoicing and Expense Tracking SaaS"
 description: "Full-stack SaaS application for invoicing and expense tracking built with Angular 2, Node.js, Express, and MongoDB Atlas."
 technologies: ["Angular 2", "Node.js", "Express", "MongoDB Atlas", "TypeScript", "RESTful APIs"]
 github: "https://github.com/prabintp"
-featured: true
-order: 4
+featured: false
+order: 7
 ---
 
 ## Overview

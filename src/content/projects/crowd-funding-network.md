@@ -3,7 +3,7 @@ title: "Crowd Funding Network and Search Engine"
 description: "Search platform helping crowd funders discover and compare projects, funding platforms, strategies, and ideas with web crawler integration."
 technologies: ["AngularJS", "Bootstrap", "JavaScript Web Crawler", "RESTful APIs", "JSON", "PHP", "MySQL"]
 github: "https://github.com/prabintp"
-order: 7
+order: 10
 ---
 
 ## Overview
