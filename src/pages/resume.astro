@@ -31,15 +31,32 @@ function extractBullets(body: string): string[] {
 	return bullets;
 }
 
+const summary = [
+	'Lead Experience Engineer within MENA PS at Publicis Sapient with 13+ years of experience in software engineering and digital product development. Expertise spans the complete software development lifecycle — enterprise architecture, scalable system design, and secure, production-grade applications using React, Next.js, TypeScript, Node.js, and GraphQL — along with analytics, SEO, unit and end-to-end test automation, and enterprise design systems.',
+	'Strong proficiency in AWS, DevOps practices, and CI/CD pipeline design across cloud and on-premise environments, plus enterprise CMS and digital experience platforms including Adobe Experience Manager (AEM), Sitecore, headless CMS architectures, and e-commerce solutions.',
+	'Hands-on AI engineering experience with agentic frameworks, LLM integration, retrieval-augmented generation (RAG), AI workflow automation, and spec-driven, AI-assisted delivery using Claude Code, Cursor, Slingshot, N8N, Ollama, and Sapient Bodhi, complemented by Anthropic Claude certifications. Technical leadership spans architecture definition, solution design, engineering governance, mentoring, and delivery oversight for large-scale digital transformation programmes.',
+];
+
 const skillsData = [
-	{ category: 'AI & GenAI', items: 'LangGraph, CrewAI, Llama Index, RAG, Agentic AI, Predictive Modeling, Prompt Engineering' },
-	{ category: 'Frontend', items: 'React, Next.js, TypeScript, AngularJS, Tailwind CSS, Material-UI, HTML5, CSS3' },
-	{ category: 'Backend', items: 'Node.js, REST APIs, GraphQL, PHP, Python' },
-	{ category: 'Cloud & Infrastructure', items: 'AWS (Amplify, S3, CloudFront, CloudWatch), Azure, GCP, Terraform, Docker, GitHub Actions' },
-	{ category: 'CMS & Tools', items: 'Sitecore CMS, Adobe Experience Manager (AEM), NX Monorepo, Git' },
-	{ category: 'Testing', items: 'Playwright, Jest, React Testing Library, Storybook' },
-	{ category: 'Architecture', items: 'Solution Architecture, Microservices, Enterprise Patterns, Agile/SCRUM, CI/CD' },
-	{ category: 'Databases', items: 'MySQL, MongoDB' },
+	{ category: 'Architecture', items: 'Enterprise, Solution & Platform Architecture, Nx Monorepo, TurboRepo, Web API, GraphQL, Asset Management' },
+	{ category: 'Frontend', items: 'React, Next.js, TypeScript, AngularJS, Tailwind CSS, Material-UI, HTML5, CSS3, Responsive Design' },
+	{ category: 'Backend', items: 'Node.js, GraphQL, REST APIs, PHP, MySQL, MongoDB' },
+	{ category: 'AI Engineering', items: 'AI-Assisted Development, Agentic Workflows, Agent Skills, LLM Integration, RAG, Claude Code, Cursor, Slingshot, N8N, Ollama, Sapient Bodhi' },
+	{ category: 'Cloud & DevOps', items: 'AWS (EC2, S3, CloudWatch), CI/CD, GitHub Actions, Cloud Monitoring & Alerting, DNS, CDN (Cloudflare), Redis' },
+	{ category: 'CMS & DXP', items: 'Adobe Experience Manager (AEM), Sitecore, Headless CMS, E-commerce' },
+	{ category: 'Quality', items: 'Web Performance Optimisation, Lighthouse, WCAG Accessibility, Web Security & Compliance, SEO, Analytics (GTM, GA)' },
+	{ category: 'Testing', items: 'Playwright, Functional Testing, End-to-End Testing, Performance Testing, Unit Testing' },
+];
+
+const education = [
+	{ degree: 'Master of Computer Applications', institution: 'Calicut University, India', year: '2010' },
+	{ degree: 'Bachelor of Science — Physics', institution: 'Calicut University, India', year: '2007' },
+];
+
+const training = [
+	{ title: 'Build Your First (No-Code) Agent', source: 'Marcel PS', year: '2026' },
+	{ title: 'Accessibility Standards and Expectations', source: 'Marcel PS', year: '2026' },
+	{ title: 'Prompt Engineering for Engineers', source: 'Marcel PS', year: '2025' },
 ];
 
 const resumeData = {
@@ -49,7 +66,10 @@ const resumeData = {
 	phone: PHONE,
 	location: LOCATION,
 	company: COMPANY,
+	summary,
 	skills: skillsData,
+	education,
+	training,
 	experiences: experiences.map(exp => ({
 		company: exp.data.company,
 		position: exp.data.position,
@@ -332,41 +352,19 @@ const resumeData = {
 	<!-- Professional Summary -->
 	<section class="summary">
 		<h2 class="section-title">Professional Summary</h2>
-		<p>
-			Full-stack engineer and Lead Forward Deployed Engineer with 13+ years of experience spanning the full software development lifecycle — from client discovery through production delivery. Leads end-to-end delivery of AI-powered products and solutions, working closely with clients on AI integration, full-stack engineering, client consulting, and project ownership within a consulting environment.
-		</p>
-		<p>
-			Proven track record defining and implementing end-to-end AI/ML and Generative AI application architectures, including Agentic AI frameworks (LangGraph, CrewAI, Llama Index), Retrieval-Augmented Generation (RAG) pipelines, and large-scale predictive modeling systems. Experienced across AWS, Azure, and GCP with a consistent focus on enterprise security, compliance, and scalability.
-		</p>
+		{summary.map((para) => <p>{para}</p>)}
 	</section>
 
 	<!-- Core Technical Skills -->
 	<section>
 		<h2 class="section-title">Core Technical Skills</h2>
 		<div class="skills-grid">
-			<span class="skill-cat">AI &amp; GenAI</span>
-			<span class="skill-list">LangGraph, CrewAI, Llama Index, RAG, Agentic AI, Predictive Modeling, Prompt Engineering</span>
-
-			<span class="skill-cat">Frontend</span>
-			<span class="skill-list">React, Next.js, TypeScript, AngularJS, Tailwind CSS, Material-UI, HTML5, CSS3</span>
-
-			<span class="skill-cat">Backend</span>
-			<span class="skill-list">Node.js, REST APIs, GraphQL, PHP, Python</span>
-
-			<span class="skill-cat">Cloud &amp; Infra</span>
-			<span class="skill-list">AWS (Amplify, S3, CloudFront, CloudWatch), Azure, GCP, Terraform, Docker, GitHub Actions</span>
-
-			<span class="skill-cat">CMS &amp; Tools</span>
-			<span class="skill-list">Sitecore CMS, Adobe Experience Manager (AEM), NX Monorepo, Git</span>
-
-			<span class="skill-cat">Testing</span>
-			<span class="skill-list">Playwright, Jest, React Testing Library, Storybook</span>
-
-			<span class="skill-cat">Architecture</span>
-			<span class="skill-list">Solution Architecture, Microservices, Enterprise Patterns, Agile/SCRUM, CI/CD</span>
-
-			<span class="skill-cat">Databases</span>
-			<span class="skill-list">MySQL, MongoDB</span>
+			{skillsData.map((s) => (
+				<>
+					<span class="skill-cat">{s.category}</span>
+					<span class="skill-list">{s.items}</span>
+				</>
+			))}
 		</div>
 	</section>
 
@@ -413,6 +411,28 @@ const resumeData = {
 					{c.data.issueDate && ` · Issued ${formatDate(c.data.issueDate)}`}
 					{c.data.credentialId && ` · Credential ID: ${c.data.credentialId}`}
 				</span>
+			</div>
+		))}
+	</section>
+
+	<!-- Training & Courses -->
+	<section>
+		<h2 class="section-title">Training &amp; Courses</h2>
+		{training.map((t) => (
+			<div class="cert-item">
+				<strong>{t.title}</strong> — {t.source}
+				<span class="cert-meta"> · {t.year}</span>
+			</div>
+		))}
+	</section>
+
+	<!-- Education -->
+	<section>
+		<h2 class="section-title">Education</h2>
+		{education.map((e) => (
+			<div class="cert-item">
+				<strong>{e.degree}</strong> — {e.institution}
+				<span class="cert-meta"> · {e.year}</span>
 			</div>
 		))}
 	</section>
@@ -479,14 +499,12 @@ document.getElementById('btn-word').addEventListener('click', async function () 
 
 			// Professional Summary
 			sectionTitle('Professional Summary'),
-			new Paragraph({
-				spacing: { after: 60 },
-				children: [new TextRun({ size: 21, font: FONT, color: COLOR_BODY, text: 'Full-stack engineer and Lead Forward Deployed Engineer with 13+ years of experience spanning the full software development lifecycle — from client discovery through production delivery. Leads end-to-end delivery of AI-powered products and solutions, working closely with clients on AI integration, full-stack engineering, client consulting, and project ownership within a consulting environment.' })],
-			}),
-			new Paragraph({
-				spacing: { after: 80 },
-				children: [new TextRun({ size: 21, font: FONT, color: COLOR_BODY, text: 'Proven track record defining and implementing end-to-end AI/ML and Generative AI application architectures, including Agentic AI frameworks (LangGraph, CrewAI, Llama Index), Retrieval-Augmented Generation (RAG) pipelines, and large-scale predictive modeling systems. Experienced across AWS, Azure, and GCP with a consistent focus on enterprise security, compliance, and scalability.' })],
-			}),
+			...resumeData.summary.map((text, i) =>
+				new Paragraph({
+					spacing: { after: i === resumeData.summary.length - 1 ? 80 : 60 },
+					children: [new TextRun({ size: 21, font: FONT, color: COLOR_BODY, text })],
+				})
+			),
 
 			// Core Technical Skills
 			sectionTitle('Core Technical Skills'),
@@ -550,6 +568,32 @@ document.getElementById('btn-word').addEventListener('click', async function () 
 						new TextRun({ text: c.issuer, size: 20, font: FONT, color: COLOR_BODY }),
 						...(c.issueDate ? [new TextRun({ text: '  · Issued ' + c.issueDate, size: 18, font: FONT, color: COLOR_MUTED })] : []),
 						...(c.credentialId ? [new TextRun({ text: '  · Credential ID: ' + c.credentialId, size: 18, font: FONT, color: COLOR_MUTED })] : []),
+					],
+				})
+			),
+
+			// Training & Courses
+			sectionTitle('Training & Courses'),
+			...resumeData.training.map(t =>
+				new Paragraph({
+					spacing: { after: 40 },
+					children: [
+						new TextRun({ text: t.title + ' — ', bold: true, size: 20, font: FONT, color: COLOR_NAME }),
+						new TextRun({ text: t.source, size: 20, font: FONT, color: COLOR_BODY }),
+						new TextRun({ text: '  · ' + t.year, size: 18, font: FONT, color: COLOR_MUTED }),
+					],
+				})
+			),
+
+			// Education
+			sectionTitle('Education'),
+			...resumeData.education.map(e =>
+				new Paragraph({
+					spacing: { after: 40 },
+					children: [
+						new TextRun({ text: e.degree + ' — ', bold: true, size: 20, font: FONT, color: COLOR_NAME }),
+						new TextRun({ text: e.institution, size: 20, font: FONT, color: COLOR_BODY }),
+						new TextRun({ text: '  · ' + e.year, size: 18, font: FONT, color: COLOR_MUTED }),
 					],
 				})
 			),

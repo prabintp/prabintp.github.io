@@ -1,6 +1,6 @@
 ---
 company: "Cognizant Technology Solutions"
-position: "Project Associate"
+position: "Senior Front-End Engineer"
 startDate: 2014-01-01
 endDate: 2015-12-01
 location: "India"
@@ -9,18 +9,17 @@ current: false
 
 ## Role Overview
 
-Worked as a project associate focusing on implementing UI requirements from design mockups and integrating them with backend services.
+Senior Front-End Engineer on a long-term ocean shipping e-marketing initiative, providing offshore support for the client's IT operations as part of a distributed team of 7 engineers in India.
 
 ## Key Responsibilities
 
-- Implemented requirements from design mockups on the UI and integrated them with backend services
-- Collaborated effectively with team members and product owners
-- Contributed new ideas to rapidly evolving architectures
-- Participated in agile development processes
+- Managed client relationships and development for the ocean shipping e-marketing application
+- Collaborated directly with client stakeholders to analyse requirements and deliver core UI functionality
+- Delivered several key initiatives that significantly reduced the cost of IT support for the client
+- Built a single-page application with AngularJS, RequireJS, and Bootstrap integrated with RESTful services
 
 ## Technical Skills Used
 
-- Front-end development with modern JavaScript frameworks
-- Backend service integration
-- Agile collaboration and sprint planning
-- Code reviews and version control
+- AngularJS, RequireJS, JavaScript, Bootstrap
+- RESTful API integration and JSON data handling
+- Agile collaboration with a distributed team

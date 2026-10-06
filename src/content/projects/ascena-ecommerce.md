@@ -3,7 +3,7 @@ title: "Ascena Retail E-Commerce Platform"
 description: "E-commerce application built with ES6 featuring responsive design, reusable code architecture, and agile development practices."
 technologies: ["JavaScript ES6", "HTML5", "CSS3", "Responsive Design", "Agile"]
 featured: true
-order: 3
+order: 6
 ---
 
 ## Overview
